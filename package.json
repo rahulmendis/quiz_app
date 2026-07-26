@@ -1,0 +1,15 @@
+{
+  "name": "com1301-quiz-console",
+  "version": "1.0.0",
+  "description": "Self-contained, single-file interactive quiz app for COM1301 (Introduction to Computer Systems)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["quiz", "education", "vercel"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
