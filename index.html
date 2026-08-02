@@ -3,628 +3,848 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer System Unit Quiz — COM1301</title>
+<title>COM1301 — Computer Software Quiz</title>
 <style>
-:root{
-  --navy:#1d2125;
-  --blue:#0f6cbf;
-  --blue-dark:#0b568f;
-  --bg:#f2f4f6;
-  --card:#ffffff;
-  --border:#dde1e6;
-  --text:#33383d;
-  --muted:#6b7280;
-  --green:#2e7d32;
-  --green-bg:#e6f4ea;
-  --red:#b71c1c;
-  --red-bg:#fdecea;
-  --orange:#f98012;
-  --grey-btn:#eceff1;
-  --radius:4px;
-}
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  font-size:15px;
-  line-height:1.5;
-}
-a{color:var(--blue);text-decoration:none;}
-a:hover{text-decoration:underline;}
+  :root{
+    --primary:#0a84ff;
+    --primary-dark:#0060df;
+    --orange:#ff9f0a;
+    --green:#22a559;
+    --red:#e0392f;
+    --text:#1c1c1e;
+    --text-light:#5b5b63;
+    --glass-bg: rgba(255,255,255,0.55);
+    --glass-bg-strong: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.65);
+    --glass-shadow: 0 8px 32px rgba(31,38,58,0.14);
+    --inner-highlight: inset 0 1px 0 rgba(255,255,255,0.8);
+    --option-bg: rgba(255,255,255,0.4);
+    --option-hover: rgba(255,255,255,0.65);
+    --blob-1:#a7c7ff;
+    --blob-2:#ffd0e8;
+    --blob-3:#c6ffe8;
+    --blob-4:#ffe3ad;
+    --scrollbar:rgba(0,0,0,0.2);
+  }
+  html[data-theme="dark"]{
+    --primary:#409cff;
+    --primary-dark:#7ab8ff;
+    --orange:#ffb340;
+    --green:#32d74b;
+    --red:#ff6961;
+    --text:#f0f0f5;
+    --text-light:#a9a9b3;
+    --glass-bg: rgba(38,38,48,0.55);
+    --glass-bg-strong: rgba(44,44,56,0.7);
+    --glass-border: rgba(255,255,255,0.14);
+    --glass-shadow: 0 8px 34px rgba(0,0,0,0.45);
+    --inner-highlight: inset 0 1px 0 rgba(255,255,255,0.08);
+    --option-bg: rgba(255,255,255,0.06);
+    --option-hover: rgba(255,255,255,0.12);
+    --blob-1:#2d4faa;
+    --blob-2:#7a2d63;
+    --blob-3:#1e6e5c;
+    --blob-4:#6e4b1e;
+    --scrollbar:rgba(255,255,255,0.2);
+  }
 
-/* ---------- Top nav bar ---------- */
-.navbar{
-  background:var(--navy);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:0 20px;
-  height:52px;
-}
-.navbar .brand{
-  font-weight:700;
-  font-size:18px;
-  letter-spacing:.3px;
-  color:#fff;
-}
-.navbar .brand span{color:var(--orange);}
-.navbar .spacer{flex:1;}
-.navbar .user{
-  font-size:13px;
-  color:#c7cdd3;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.navbar .avatar{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--blue);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:#fff;
-}
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family: -apple-system, "SF Pro Text", "Segoe UI", Arial, Helvetica, sans-serif;
+    color:var(--text);
+    font-size:15px;
+    min-height:100vh;
+    background: #eef1f6;
+    transition: background .35s ease, color .35s ease;
+  }
+  html[data-theme="dark"] body{ background:#0b0b12; }
+  a{color:var(--primary); text-decoration:none;}
 
-/* ---------- Breadcrumb ---------- */
-.breadcrumb{
-  background:#fff;
-  border-bottom:1px solid var(--border);
-  padding:10px 20px;
-  font-size:13px;
-  color:var(--muted);
-}
-.breadcrumb a{color:var(--blue);}
-.breadcrumb .sep{margin:0 6px;color:#b7bcc2;}
+  /* ===== Ambient liquid glass background ===== */
+  .bg-blobs{
+    position:fixed; inset:0; z-index:-1; overflow:hidden;
+  }
+  .bg-blobs span{
+    position:absolute;
+    border-radius:50%;
+    filter: blur(70px);
+    opacity:0.55;
+    will-change:transform;
+  }
+  .bg-blobs span:nth-child(1){ width:420px;height:420px; background:var(--blob-1); top:-120px; left:-100px; animation: float1 22s ease-in-out infinite; }
+  .bg-blobs span:nth-child(2){ width:380px;height:380px; background:var(--blob-2); top:10%; right:-140px; animation: float2 26s ease-in-out infinite; }
+  .bg-blobs span:nth-child(3){ width:340px;height:340px; background:var(--blob-3); bottom:-100px; left:15%; animation: float3 20s ease-in-out infinite; }
+  .bg-blobs span:nth-child(4){ width:300px;height:300px; background:var(--blob-4); bottom:5%; right:10%; animation: float1 24s ease-in-out infinite reverse; }
 
-/* ---------- Layout ---------- */
-.wrap{
-  max-width:1080px;
-  margin:0 auto;
-  padding:20px 16px 60px;
-}
-.page-title{
-  font-size:22px;
-  font-weight:600;
-  margin:4px 0 18px;
-  color:#1a1f24;
-}
-.page-title small{
-  display:block;
-  font-size:13px;
-  font-weight:400;
-  color:var(--muted);
-  margin-top:2px;
-}
+  @keyframes float1{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(40px,30px);} }
+  @keyframes float2{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(-30px,40px);} }
+  @keyframes float3{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(30px,-30px);} }
+  @media (prefers-reduced-motion: reduce){
+    .bg-blobs span{ animation:none !important; }
+    html{ scroll-behavior:auto; }
+  }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 240px;
-  gap:20px;
-  align-items:start;
-}
-@media (max-width:820px){
-  .grid{grid-template-columns:1fr;}
-  .navblock{order:-1;}
-}
+  /* ===== Glass base ===== */
+  .glass{
+    background:var(--glass-bg);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    box-shadow:var(--glass-shadow), var(--inner-highlight);
+  }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-}
+  /* ===== Top bar ===== */
+  .topbar-wrap{
+    position:sticky; top:0; z-index:50;
+    padding:14px 16px 0 16px;
+  }
+  .topbar{
+    max-width:1200px;
+    margin:0 auto;
+    padding:10px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .topbar .left-group{ display:flex; align-items:center; gap:10px; }
+  .topbar .brand{
+    font-weight:600;
+    font-size:15px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+  }
+  .topbar .brand .logo{
+    width:28px;height:28px;border-radius:9px;
+    background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;color:#fff;
+    box-shadow:0 2px 6px rgba(10,132,255,0.4);
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:12px;
+    border:1px solid var(--glass-border);
+    background:var(--option-bg);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    color:var(--text);
+    font-size:16px;
+    transition: background .15s, transform .1s;
+  }
+  .icon-btn:hover{ background:var(--option-hover); }
+  .icon-btn:active{ transform:scale(0.94); }
+  .icon-btn.hidden{ display:none; }
 
-/* ---------- Start screen ---------- */
-.quizinfo-box{padding:20px 24px;}
-.quizinfo-box table{width:100%;border-collapse:collapse;}
-.quizinfo-box td{padding:8px 0;border-bottom:1px solid #eef0f2;font-size:14px;}
-.quizinfo-box td.k{color:var(--muted);width:220px;}
-.quizinfo-box td.v{font-weight:500;}
-.length-choice{
-  display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;
-}
-.chip{
-  border:1px solid var(--border);
-  background:#fff;
-  padding:7px 16px;
-  border-radius:20px;
-  font-size:13px;
-  cursor:pointer;
-  color:var(--text);
-  transition:.12s;
-}
-.chip:hover{border-color:var(--blue);}
-.chip.active{
-  background:var(--blue);
-  border-color:var(--blue);
-  color:#fff;
-}
-.btn{
-  display:inline-block;
-  background:var(--blue);
-  color:#fff;
-  border:none;
-  padding:10px 22px;
-  border-radius:var(--radius);
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-}
-.btn:hover{background:var(--blue-dark);}
-.btn.secondary{
-  background:#fff;
-  color:var(--text);
-  border:1px solid var(--border);
-}
-.btn.secondary:hover{border-color:var(--muted);}
-.btn.danger{background:var(--red);}
-.btn.danger:hover{background:#8f1717;}
-.btn:disabled{opacity:.5;cursor:not-allowed;}
+  .topbar .timer{
+    background:var(--option-bg);
+    border:1px solid var(--glass-border);
+    padding:6px 14px;
+    border-radius:12px;
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    color:var(--text);
+  }
+  .topbar .finish-btn{
+    background:linear-gradient(145deg, var(--orange), #e07200);
+    color:#fff;
+    border:none;
+    padding:9px 18px;
+    border-radius:12px;
+    font-size:14px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 4px 14px rgba(255,159,10,0.35);
+  }
+  .topbar .finish-btn:hover{ filter:brightness(1.05); }
 
-/* ---------- Question card ---------- */
-.qcard{padding:22px 26px 24px;}
-.qmeta{
-  display:flex;justify-content:space-between;align-items:center;
-  border-bottom:1px solid var(--border);
-  padding-bottom:12px;margin-bottom:16px;
-  font-size:13px;color:var(--muted);
-}
-.qmeta .flag{
-  cursor:pointer;user-select:none;
-  display:flex;align-items:center;gap:5px;
-}
-.qmeta .flag.on{color:var(--orange);font-weight:600;}
-.qtext{font-size:16px;font-weight:500;margin-bottom:18px;color:#1a1f24;}
-.options{list-style:none;margin:0;padding:0;}
-.option{
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:12px 14px;
-  margin-bottom:10px;
-  display:flex;gap:12px;align-items:flex-start;
-  cursor:pointer;
-  transition:.12s;
-}
-.option:hover{border-color:var(--blue);background:#f7fafd;}
-.option input{margin-top:3px;accent-color:var(--blue);}
-.option .letter{
-  font-weight:700;color:var(--muted);width:18px;flex-shrink:0;
-}
-.option.selected{
-  border-color:var(--blue);
-  background:#eaf3fb;
-}
-.option.selected .letter{color:var(--blue);}
-.option.correct{border-color:var(--green);background:var(--green-bg);}
-.option.correct .letter{color:var(--green);}
-.option.incorrect{border-color:var(--red);background:var(--red-bg);}
-.option.incorrect .letter{color:var(--red);}
+  .breadcrumb-wrap{ max-width:1200px; margin:8px auto 0 auto; padding:0 16px; }
+  .breadcrumb{
+    padding:9px 18px;
+    font-size:13px;
+    color:var(--text-light);
+    border-radius:14px;
+  }
+  .breadcrumb b{ color:var(--text); }
 
-.qnav-buttons{
-  display:flex;justify-content:space-between;margin-top:20px;
-}
+  /* ===== Layout ===== */
+  .layout{
+    display:flex;
+    max-width:1200px;
+    margin:16px auto 60px auto;
+    gap:20px;
+    padding:0 16px;
+    align-items:flex-start;
+  }
+  .main-col{ flex:1; min-width:0; }
+  .side-col{ width:270px; flex-shrink:0; }
 
-/* ---------- Nav block ---------- */
-.navblock{padding:16px;}
-.navblock h4{
-  margin:0 0 12px;font-size:13px;text-transform:uppercase;
-  letter-spacing:.4px;color:var(--muted);font-weight:700;
-}
-.navgrid{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;
-}
-.navsq{
-  aspect-ratio:1;
-  border:1px solid var(--border);
-  border-radius:3px;
-  background:var(--grey-btn);
-  font-size:12px;font-weight:600;color:var(--text);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;position:relative;
-}
-.navsq.answered{background:#dcedc8;border-color:#a5c97e;color:#33691e;}
-.navsq.current{outline:2px solid var(--blue);outline-offset:1px;}
-.navsq.flagged::after{
-  content:"";position:absolute;top:2px;right:2px;
-  width:6px;height:6px;border-radius:50%;background:var(--orange);
-}
-.legend{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
-.legend span{display:flex;align-items:center;gap:6px;}
-.legend i{width:11px;height:11px;border-radius:2px;display:inline-block;border:1px solid var(--border);}
-.legend i.a{background:#dcedc8;border-color:#a5c97e;}
-.legend i.n{background:var(--grey-btn);}
-.legend i.f{background:var(--orange);border-color:var(--orange);}
-.progresswrap{margin-bottom:14px;}
-.progressbar{
-  height:7px;background:var(--grey-btn);border-radius:4px;overflow:hidden;
-}
-.progressbar i{display:block;height:100%;background:var(--blue);}
-.progresslabel{font-size:12px;color:var(--muted);margin-top:5px;}
+  .card{
+    padding:22px 26px;
+    margin-bottom:16px;
+  }
 
-/* ---------- Results ---------- */
-.gradebox{
-  padding:26px;text-align:center;
-}
-.gradebox .score{
-  font-size:46px;font-weight:800;color:var(--blue);
-}
-.gradebox .pct{font-size:15px;color:var(--muted);margin-top:2px;}
+  /* ===== Start screen ===== */
+  .start-card h1{
+    font-size:23px;
+    margin-top:0;
+    background:linear-gradient(120deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .start-card p{ color:var(--text-light); line-height:1.55; }
+  .start-options{
+    display:grid;
+    gap:14px;
+    margin:20px 0;
+  }
+  .field-row label{
+    display:block;
+    font-weight:600;
+    margin-bottom:6px;
+    font-size:13px;
+    color:var(--text);
+  }
+  select, input[type=text]{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--glass-border);
+    border-radius:10px;
+    font-size:14px;
+    background:var(--option-bg);
+    color:var(--text);
+  }
+  select:focus, input:focus{ outline:2px solid var(--primary); outline-offset:1px; }
 
-.review-item{border-top:1px solid var(--border);padding:16px 0;}
-.review-item:first-child{border-top:none;}
-.review-item .qn{font-size:13px;color:var(--muted);margin-bottom:4px;}
-.review-item .qt{font-weight:500;margin-bottom:10px;}
-.review-opt{
-  padding:8px 12px;border-radius:3px;font-size:13.5px;margin-bottom:6px;
-  border:1px solid var(--border);
-}
-.review-opt.correct{background:var(--green-bg);border-color:#bfe3c6;color:#1b5e20;}
-.review-opt.incorrect{background:var(--red-bg);border-color:#f3c6c2;color:#8f1717;}
+  .btn{
+    display:inline-block;
+    background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+    color:#fff;
+    border:none;
+    padding:11px 22px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 16px rgba(10,132,255,0.35);
+    transition: filter .15s, transform .1s;
+  }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:active{ transform:scale(0.98); }
+  .btn.secondary{
+    background:var(--option-bg);
+    color:var(--primary);
+    border:1px solid var(--glass-border);
+    box-shadow:none;
+  }
+  .btn.secondary:hover{ background:var(--option-hover); }
+  .btn.orange{ background:linear-gradient(145deg, var(--orange), #e07200); box-shadow:0 4px 16px rgba(255,159,10,0.35); }
 
-.toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  background:var(--navy);color:#fff;padding:10px 18px;border-radius:5px;
-  font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:999;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+  /* ===== Question card ===== */
+  .q-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1px solid var(--glass-border);
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  .q-header .q-title{ font-size:17px; font-weight:600; color:var(--primary-dark); }
+  .q-status{
+    font-size:12px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:8px;
+  }
+  .q-status.answered{ background:rgba(34,165,89,0.18); color:var(--green); }
+  .q-status.unanswered{ background:rgba(255,159,10,0.18); color:var(--orange); }
 
-.hidden{display:none !important;}
-.footer-note{
-  text-align:center;color:var(--muted);font-size:12px;margin-top:26px;
-}
+  .q-text{
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:18px;
+  }
+  .q-marked{ font-size:12px; color:var(--text-light); margin-bottom:14px; }
+
+  .options{ display:grid; gap:10px; }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 15px;
+    border:1px solid var(--glass-border);
+    border-radius:12px;
+    cursor:pointer;
+    background:var(--option-bg);
+    transition:border-color .12s, background .12s;
+  }
+  .option:hover{ border-color:var(--primary); background:var(--option-hover); }
+  .option.selected{ border-color:var(--primary); background:rgba(10,132,255,0.14); }
+  .option input{ margin-top:3px; accent-color:var(--primary); }
+  .option .opt-letter{ font-weight:700; color:var(--primary-dark); min-width:18px; }
+  .option.correct{ border-color:var(--green); background:rgba(34,165,89,0.16); }
+  .option.incorrect{ border-color:var(--red); background:rgba(224,57,47,0.14); }
+
+  .nav-buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+  }
+
+  /* ===== Sidebar nav block ===== */
+  .side-block h3{
+    font-size:14px;
+    margin:0 0 12px 0;
+    color:var(--primary-dark);
+    border-bottom:1px solid var(--glass-border);
+    padding-bottom:8px;
+  }
+  .qgrid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .qgrid button{
+    aspect-ratio:1;
+    border:1px solid var(--glass-border);
+    background:var(--option-bg);
+    border-radius:8px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    color:var(--text);
+  }
+  .qgrid button.answered{ background:rgba(255,159,10,0.18); border-color:var(--orange); color:var(--orange); }
+  .qgrid button.current{ outline:2px solid var(--primary); outline-offset:1px; }
+  .qgrid button.correct{ background:rgba(34,165,89,0.2); border-color:var(--green); color:var(--green); }
+  .qgrid button.incorrect{ background:rgba(224,57,47,0.18); border-color:var(--red); color:var(--red); }
+
+  .legend{ font-size:11px; color:var(--text-light); line-height:1.8; }
+  .legend span{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:middle; }
+  .dot-unanswered{ background:var(--option-bg); border:1px solid var(--glass-border); }
+  .dot-answered{ background:rgba(255,159,10,0.25); border:1px solid var(--orange); }
+
+  /* ===== Progress ===== */
+  .progress-wrap{ margin-bottom:14px; }
+  .progress-bar{
+    height:8px; background:var(--option-bg); border-radius:6px; overflow:hidden;
+    border:1px solid var(--glass-border);
+  }
+  .progress-bar-fill{
+    height:100%; background:linear-gradient(90deg, var(--primary), var(--primary-dark)); width:0%;
+    transition:width .2s;
+  }
+  .progress-label{ font-size:12px; color:var(--text-light); margin-top:6px; }
+
+  /* ===== Results ===== */
+  .score-hero{
+    text-align:center;
+    padding:10px 0 20px 0;
+  }
+  .score-circle{
+    width:124px;height:124px;border-radius:50%;
+    border:8px solid var(--primary);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 14px auto;
+    font-size:28px;font-weight:700;color:var(--primary-dark);
+    background:var(--option-bg);
+    box-shadow:var(--inner-highlight);
+  }
+  .score-circle.pass{ border-color:var(--green); color:var(--green); }
+  .score-circle.fail{ border-color:var(--red); color:var(--red); }
+  .grade-line{ font-size:15px; color:var(--text-light); }
+
+  .review-item{ margin-bottom:14px; }
+  .review-q{ font-weight:600; margin-bottom:8px; }
+
+  .hidden{ display:none !important; }
+
+  footer{
+    text-align:center;
+    color:var(--text-light);
+    font-size:12px;
+    padding:24px 0 60px 0;
+  }
+
+  /* ===== Back to top ===== */
+  #backToTop{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:48px;height:48px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:18px;
+    color:var(--text);
+    z-index:60;
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  #backToTop.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  #backToTop:hover{ background:var(--option-hover); }
+
+  /* ===== Scrollbar (subtle) ===== */
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-thumb{ background:var(--scrollbar); border-radius:6px; }
+
+  @media (max-width: 820px){
+    .layout{ flex-direction:column; }
+    .side-col{ width:100%; }
+    .qgrid{ grid-template-columns:repeat(8, 1fr); }
+  }
+
+  :focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
 </style>
 </head>
 <body>
 
-<div class="navbar">
-  <div class="brand">Moodle</div>
-  <div class="spacer"></div>
-  <div class="user"><div class="avatar">U</div> Student</div>
-</div>
-<div class="breadcrumb">
-  <a href="#">Dashboard</a><span class="sep">/</span><a href="#">My courses</a><span class="sep">/</span><a href="#">COM1301</a><span class="sep">/</span>Quizzes<span class="sep">/</span>Computer System Unit Quiz
-</div>
+<div class="bg-blobs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
-<div class="wrap">
-
-  <!-- ============ START SCREEN ============ -->
-  <div id="screen-start">
-    <div class="page-title">Computer System Unit Quiz
-      <small>Introduction to Computer Systems  Lecture 6: System Unit, Motherboard &amp; Ports</small>
+<div class="topbar-wrap">
+  <div class="topbar glass">
+    <div class="left-group">
+      <button id="backBtn" class="icon-btn hidden" title="Back" aria-label="Back">&#8592;</button>
+      <div class="brand"><span class="logo">CS</span> COM1301 Quiz — Computer Software</div>
     </div>
-    <div class="card quizinfo-box">
-      <table>
-        <tr><td class="k">Question bank</td><td class="v">100 questions (Set A + Set B)</td></tr>
-        <tr><td class="k">Attempts allowed</td><td class="v">Unlimited</td></tr>
-        <tr><td class="k">Question order</td><td class="v">Shuffled every attempt</td></tr>
-        <tr><td class="k">Answer order</td><td class="v">Shuffled every attempt</td></tr>
-        <tr><td class="k">Grading method</td><td class="v">Highest grade, marked automatically</td></tr>
+    <div class="left-group">
+      <div id="timerDisplay" class="timer hidden">00:00</div>
+      <button id="finishBtn" class="finish-btn hidden">Finish attempt</button>
+      <button id="themeToggle" class="icon-btn" title="Toggle dark mode" aria-label="Toggle dark mode">&#9789;</button>
+    </div>
+  </div>
+</div>
+<div class="breadcrumb-wrap">
+  <div class="breadcrumb glass">
+    <span id="breadcrumbText">Dashboard &gt; <b>COM1301: Introduction to Computer Systems</b> &gt; Quizzes &gt; Computer Software Quiz Bank</span>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="main-col">
+
+    <!-- START SCREEN -->
+    <div id="startScreen" class="card glass start-card">
+      <h1>Computer Software — Quiz Bank</h1>
+      <p>This quiz draws from a bank of 200 questions covering system software, application software, operating system categories, and software delivery methods. Each attempt uses a fresh random selection of questions, and both the question order and answer order are shuffled — no two attempts look the same.</p>
+
+      <div class="start-options">
+        <div class="field-row">
+          <label for="numQ">Number of questions</label>
+          <select id="numQ">
+            <option value="10">10 questions</option>
+            <option value="20" selected>20 questions</option>
+            <option value="40">40 questions</option>
+            <option value="60">60 questions</option>
+            <option value="100">100 questions</option>
+            <option value="200">All 200 questions</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label for="timeLimit">Time limit</label>
+          <select id="timeLimit">
+            <option value="0">No time limit</option>
+            <option value="600">10 minutes</option>
+            <option value="900" selected>15 minutes</option>
+            <option value="1800">30 minutes</option>
+            <option value="3600">60 minutes</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn" id="startBtn">Attempt quiz now</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen" class="card glass hidden">
+      <div class="q-header">
+        <div class="q-title" id="qTitle">Question 1</div>
+        <div class="q-status unanswered" id="qStatus">Not yet answered</div>
+      </div>
+      <div class="q-marked">Marked out of 1.00</div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="qOptions"></div>
+
+      <div class="nav-buttons">
+        <button class="btn secondary" id="prevBtn">&larr; Previous page</button>
+        <button class="btn secondary" id="nextBtn">Next page &rarr;</button>
+      </div>
+    </div>
+
+    <!-- REVIEW/SUMMARY SCREEN -->
+    <div id="summaryScreen" class="card glass hidden">
+      <h2 style="margin-top:0;color:var(--primary-dark);">Summary of attempt</h2>
+      <p style="color:var(--text-light);">Check that every question has been answered before submitting. You can jump back to any question from here or from the navigation panel.</p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr style="text-align:left;border-bottom:2px solid var(--glass-border);">
+            <th style="padding:8px 4px;">Q</th>
+            <th style="padding:8px 4px;">Status</th>
+          </tr>
+        </thead>
+        <tbody id="summaryBody"></tbody>
       </table>
-      <p style="margin:18px 0 6px;font-size:13.5px;color:var(--muted);">Choose how many questions this attempt will draw from the bank:</p>
-      <div class="length-choice" id="lengthChoice">
-        <div class="chip" data-n="10">10 questions</div>
-        <div class="chip" data-n="20">20 questions</div>
-        <div class="chip active" data-n="50">50 questions</div>
-        <div class="chip" data-n="100">All 100</div>
-      </div>
-      <div style="margin-top:20px;">
-        <button class="btn" id="startBtn">Attempt quiz now</button>
+      <div style="margin-top:20px;display:flex;gap:10px;">
+        <button class="btn secondary" id="returnBtn">Return to attempt</button>
+        <button class="btn orange" id="submitBtn">Submit all and finish</button>
       </div>
     </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="resultsScreen" class="card glass hidden">
+      <div class="score-hero">
+        <div class="score-circle" id="scoreCircle">0%</div>
+        <div class="grade-line" id="scoreLine">You answered 0 of 0 correctly.</div>
+      </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <button class="btn secondary" id="reviewBtn">Review answers</button>
+        <button class="btn" id="retryBtn">Attempt again</button>
+      </div>
+      <div id="reviewList" class="hidden"></div>
+    </div>
+
   </div>
 
-  <!-- ============ QUIZ SCREEN ============ -->
-  <div id="screen-quiz" class="hidden">
-    <div class="page-title" id="quizTitle">Computer System Unit Quiz</div>
-    <div class="grid">
-      <div class="card qcard">
-        <div class="qmeta">
-          <div id="qCounter">Question 1 of 50</div>
-          <div class="flag" id="flagBtn">☆ Flag question</div>
-        </div>
-        <div class="qtext" id="qText"></div>
-        <ul class="options" id="optionsList"></ul>
-        <div class="qnav-buttons">
-          <button class="btn secondary" id="prevBtn">◂ Previous</button>
-          <button class="btn secondary" id="nextBtn">Next ▸</button>
-        </div>
+  <div class="side-col">
+    <div class="card glass side-block" id="navBlock">
+      <h3>Quiz navigation</h3>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">0 of 0 answered</div>
       </div>
-      <div class="card navblock">
-        <h4>Quiz navigation</h4>
-        <div class="navgrid" id="navGrid"></div>
-        <div class="legend">
-          <span><i class="a"></i> Answered</span>
-          <span><i class="n"></i> Not answered</span>
-          <span><i class="f"></i> Flagged</span>
-        </div>
-        <div class="progresswrap">
-          <div class="progressbar"><i id="progressFill" style="width:0%"></i></div>
-          <div class="progresslabel" id="progressLabel">0 of 50 answered</div>
-        </div>
-        <button class="btn" style="width:100%;" id="finishBtn">Finish attempt ...</button>
+      <div class="qgrid" id="qgrid"></div>
+      <div class="legend">
+        <div><span class="dot-unanswered"></span>Not yet answered</div>
+        <div><span class="dot-answered"></span>Answered</div>
       </div>
+      <button class="btn orange" id="sideFinishBtn" style="width:100%;margin-top:14px;">Finish attempt</button>
     </div>
   </div>
-
-  <!-- ============ CONFIRM SUBMIT ============ -->
-  <div id="screen-confirm" class="hidden">
-    <div class="page-title">Summary of attempt</div>
-    <div class="card" style="padding:22px 26px;">
-      <div class="navgrid" id="confirmGrid" style="grid-template-columns:repeat(10,1fr);max-width:520px;"></div>
-      <p id="confirmWarning" style="color:var(--red);font-size:13.5px;margin-top:16px;"></p>
-      <div style="display:flex;gap:10px;margin-top:18px;">
-        <button class="btn secondary" id="backToAttemptBtn">Return to attempt</button>
-        <button class="btn danger" id="submitAllBtn">Submit all and finish</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ RESULTS SCREEN ============ -->
-  <div id="screen-results" class="hidden">
-    <div class="page-title">Quiz results
-      <small>Computer System Unit Quiz  attempt review</small>
-    </div>
-    <div class="card gradebox">
-      <div class="score" id="scoreText">0/50</div>
-      <div class="pct" id="pctText">0%</div>
-    </div>
-    <div style="margin:18px 0;display:flex;gap:10px;">
-      <button class="btn" id="retryBtn">Attempt again</button>
-      <button class="btn secondary" id="toggleReviewBtn">Show question review</button>
-    </div>
-    <div class="card hidden" id="reviewCard" style="padding:6px 26px;"></div>
-  </div>
-
-  <div class="footer-note">COM1301 Introduction to Computer Systems · Practice quiz for self-study only</div>
 </div>
 
-<div class="toast" id="toast"></div>
+<footer>Question bank generated from COM1301 — Introduction to Computer Systems, Lecture 4: Computer Software.</footer>
+
+<button id="backToTop" class="glass" title="Back to top" aria-label="Back to top">&#8593;</button>
+
+<script id="quiz-data" type="application/json">{"salt": "COM1301-KIU-Lec4-QzBank-9f3aK7x", "items": [{"id": 1, "q": "Which of the following best defines computer software?", "o": ["A physical component of a computer", "A set of instructions, data, or programs used to operate computers and execute specific tasks", "An electrical circuit that powers the CPU", "A type of computer network"], "h": "b6c11f902d4a2238ae7dc053f22c791a7711b08062523cfca8fedae01debc8e3"}, {"id": 2, "q": "Computer software can generally be divided into which two classifications?", "o": ["Freeware and Shareware", "System Software and Application Software", "Open-source and Closed-source", "Local and Cloud Software"], "h": "86ab8553bcabf45cb92d73fcd4e3c9b2d1f13f185837b6dd1aed42c0837bc92d"}, {"id": 3, "q": "Which type of software provides an interface and services both for users and for other software?", "o": ["Application Software", "System Software", "Utility Software only", "Middleware exclusively"], "h": "42f8002e0b719c3b396c36aa020c92d3302de7e55693d525bbfc248b4809f11b"}, {"id": 4, "q": "Application software is best described as software that:", "o": ["Coordinates hardware activities only", "Is designed to provide specific services for users and solve particular computing problems", "Interfaces directly with the CPU registers", "Is always bundled with the operating system"], "h": "025d630f53b690e83203a823bd19b3d050f690a50e63728e781d96f853692559"}, {"id": 5, "q": "Both system and application software are written using:", "o": ["Binary switches", "Programming languages", "Spreadsheet formulas", "Database queries only"], "h": "163f9053ac8f0d4fcae983b11884a5a5b8dbe9a62e446bfceb5774c5ed37d568"}, {"id": 6, "q": "A programming language's primary function is to:", "o": ["Design computer hardware", "Provide instructions to the computer system so it can perform a processing activity", "Replace the operating system", "Store data permanently"], "h": "40d525fb205b4af5a5e9a911353c91af8a33bb3073b9d5f0282b37d71b89ec6e"}, {"id": 7, "q": "Programming languages are best described as:", "o": ["Random sequences of numbers", "Sets of keywords, commands, symbols, and rules for constructing statements to communicate instructions to a computer", "Hardware components", "Types of storage devices"], "h": "b6c6e9ef941974f964f157b705796ae526e003cfadce140915922d9912e1cf04"}, {"id": 8, "q": "Which of the following professionals typically works with different programming languages?", "o": ["Electricians", "Information systems professionals", "Mechanical engineers", "Accountants only"], "h": "8375be52b5273fd8bf39481e13cf7e81e7064d2e13649f4563420137208c0fd5"}, {"id": 9, "q": "Which of the following is NOT one of the two main classifications of computer software mentioned in the lecture?", "o": ["System Software", "Application Software", "Firmware Software", "Both A and B are classifications, so C is the odd one out"], "h": "b9a1f8c6078db019e7f847176011fe4a7144fb9a2b138f665af887bb734fee03"}, {"id": 10, "q": "Software that coordinates the activities and functions of hardware and other programs is known as:", "o": ["Application Software", "System Software", "Entertainment Software", "Enterprise Software"], "h": "c65737ee26264b121ced7ca3000522b99a4a2dd2c1e257cdb723267db833001f"}, {"id": 11, "q": "Which statement about software is TRUE according to the lecture?", "o": ["Software includes only programs, not data", "Software is a set of instructions, data, or programs used to operate computers", "Software cannot execute specific tasks", "Software is a hardware component"], "h": "8c241fce0b0a920d33e40e027b27cef16815977fcaf590f0cbb711552478eb37"}, {"id": 12, "q": "System software is typically prepared by:", "o": ["End users", "Computer manufacturers", "Third-party marketing firms", "Government regulators"], "h": "6b1105eb0783b8a45e45631aaeceb9bbb0d1cd137831469aeb597559efa36c9c"}, {"id": 13, "q": "Which of the following is an example of communicating instructions to a computer via a programming language?", "o": ["Turning on the monitor", "Writing keywords, commands, and symbols following specific rules", "Plugging in a USB cable", "Cleaning the keyboard"], "h": "0b0542a8dea421b1eb324ecf49adb91a973db9af55e664e845d14f83827a191e"}, {"id": 14, "q": "According to the lecture, application software may consist of:", "o": ["Only a single program", "Only a collection of programs", "A single program or a collection of programs (software package)", "Neither a program nor a package"], "h": "d61cfd5225a2969a35d2e07bd506f7c66ab18bfa39a9dfd71c2a5230d6c5f348"}, {"id": 15, "q": "Microsoft's Notepad is used in the lecture as an example of:", "o": ["A software package", "A single application program for writing and editing simple text", "System software", "A utility program"], "h": "6a856a106f8b477c5b241d6e016544f743eade91863c54a5705ee45db98246c0"}, {"id": 16, "q": "A \"software package\" refers to:", "o": ["A single standalone program only", "A collection of programs that work together to accomplish a task, such as a spreadsheet package", "The physical packaging of a CD-ROM", "An operating system update"], "h": "0c096c15fda17cd102e03c18872d6a17a53599b19cb90921d083df8cdb527d82"}, {"id": 17, "q": "Which of the following is listed as an example of application software in the lecture?", "o": ["Payroll Software", "Device Driver", "Operating System", "Utility Program"], "h": "a702626b166fd8940e5d04f53e77466282d6457db6297342584281a03c4c6d73"}, {"id": 18, "q": "Which of the following is listed as an example of application software in the lecture?", "o": ["Microsoft Word", "Windows Server", "Anti-malware utility", "USB Driver"], "h": "62e433bb1443d0ca7e0e21e10107cb06132a6608dce02d06412b474131ce3029"}, {"id": 19, "q": "Software fundamentally acts as a bridge between:", "o": ["Two monitors", "The user/other software and the computer hardware", "Two printers", "The internet and a router only"], "h": "5a71af3c9643a4834ab745a59d47da295de423107898d20bfc2d97a4a3908f28"}, {"id": 20, "q": "Which of these best distinguishes system software from application software at a conceptual level?", "o": ["System software solves user-specific problems; application software manages hardware", "System software manages hardware and provides a platform; application software solves specific user problems", "There is no meaningful distinction between them", "Application software is always free; system software is always paid"], "h": "fc23b4450c0e0e93a5d19ed28c7abf8d187da08b9ed01bc7f3ec40fcd526caff"}, {"id": 21, "q": "According to the comparison chart, system software is generally written in:", "o": ["High-level languages like Python and JavaScript", "Low-level assembly language or machine code", "Natural language", "Markup languages only"], "h": "0468ebe23cdb022d184637b607df568fe1730c91aa59ff78cfe9c698780badec"}, {"id": 22, "q": "Application software is typically written in:", "o": ["Machine code only", "Higher-level languages, such as Python and JavaScript", "Assembly language exclusively", "Binary code directly by users"], "h": "ec33ca99eb769e63f26cac612ef6f016f699f5785ebee10c354124102dfc3a61"}, {"id": 23, "q": "Which statement about system software's relationship with hardware is correct?", "o": ["System software does not take hardware into account", "System software must meet specific hardware needs and interacts closely with hardware", "System software never interacts with hardware", "System software is independent of hardware entirely"], "h": "889fd5c1aba5b88730ca428086d549b9daefb84d349f57fee171b5e0a63df263"}, {"id": 24, "q": "Application software, in contrast to system software:", "o": ["Interacts directly with hardware", "Does not take hardware into account and doesn't interact directly with hardware", "Must be installed by the hardware manufacturer", "Runs only when the computer is off"], "h": "879593b6dd1a0fb30229bd3670417139c4e805223ff6acee29b9e412868860a8"}, {"id": 25, "q": "When is system software typically installed?", "o": ["Only when the user manually requests it", "At the same time as the OS, usually by the manufacturer", "After the computer has been used for a year", "Application software and system software are installed at the same time by the user"], "h": "dd4421d648342518833c16418337597baf30770650e7b3a54c6cc75ce339409a"}, {"id": 26, "q": "When is application software typically installed?", "o": ["Automatically with the OS by the manufacturer", "By the user or admin when needed", "It cannot be installed after purchase", "Only during factory assembly"], "h": "206ec7307d32c5b87a0b4f0516780490ab85a8b0e44d912d5e45f525ed5b1e5b"}, {"id": 27, "q": "Which of the following is true about when system software runs?", "o": ["It runs only when a specific application is opened", "It runs any time the computer is on", "It runs only once per week", "It never runs automatically"], "h": "b1748314767ca9682e3bc5de0d07818a1b8560dab590e183111e2221f9b226f9"}, {"id": 28, "q": "Application software, in terms of execution, typically:", "o": ["Runs automatically without user input", "Is triggered and stopped by the user", "Cannot be stopped once started", "Runs permanently in the background"], "h": "3ab90ccc3a22f4da90ad542c8f97c42a5d68776ee7a2386c5980e7d8b7670bbb"}, {"id": 29, "q": "Which of the following best describes where system software works?", "o": ["In the foreground, with users directly interacting with it", "In the background, and users don't usually access it directly", "Only on external servers", "Only within a web browser"], "h": "bd06a7bcd0e0394fb91db9460f4fadcb3b503dc232964a8496758f1e4fa85804"}, {"id": 30, "q": "Application software, unlike system software, typically:", "o": ["Runs in the background unnoticed", "Runs in the foreground and users work directly with it to perform specific tasks", "Cannot be seen by the user", "Requires no direct user interaction at all"], "h": "a969bf42d1c9c3e237511c341eb57b308b25773acb1358dce73ae97c73dcf3dc"}, {"id": 31, "q": "Regarding independence of operation, system software:", "o": ["Needs application software to run", "Runs independently", "Cannot run without an application open", "Is dependent on internet connectivity always"], "h": "283dc89eb8fe652ad160bc3a7a2855175990f50138937e42157113f50b7db751"}, {"id": 32, "q": "Regarding independence of operation, application software:", "o": ["Runs independently of system software", "Needs system software to run", "Replaces the need for system software", "Is a subset of hardware"], "h": "7223e3214914ff335a5d3e10a827d24131faba35961ab57837a68a7edc5e853d"}, {"id": 33, "q": "Which statement correctly reflects necessity for system operation?", "o": ["Application software is necessary for the system to function; system software is optional", "System software is necessary for the system to function; application software isn't needed for the system to function", "Neither is necessary for the system to function", "Both are equally optional"], "h": "08035dc900e7b50b3df84df788b15dba35461a18bd4ca1bb86467848b45667d3"}, {"id": 34, "q": "Which of the following is a defining characteristic of system software according to the comparison table?", "o": ["It is general-purpose software that manages basic system resources and processes", "It performs specific tasks to meet individual user needs like word processing", "It is always installed manually by the end user after purchase", "It requires application software to operate"], "h": "aad54deb13732304c18592473d26e7281af29257bd4695df951a6bebc449f3dc"}, {"id": 35, "q": "Which of the following is a defining characteristic of application software according to the comparison table?", "o": ["It manages basic system resources and processes for the whole computer", "It performs specific tasks to meet user needs", "It is installed at the same time as the OS by the manufacturer", "It works in the background invisibly"], "h": "d611fcfe8de83e0bee96e26e749e734ce1c62e8823227d68e54145df816b0842"}, {"id": 36, "q": "A student notices a program running invisibly in the background as soon as the computer starts, without any direct user interaction. This is most likely:", "o": ["Application software", "System software", "A word processor", "A spreadsheet package"], "h": "1d530d4ddcdf600e6bdeee71cc51032b25270af3329d0728d0ad31714fae9b8a"}, {"id": 37, "q": "A student installs a photo-editing tool after purchasing a new laptop and opens/closes it as needed. This is an example of:", "o": ["System software", "Application software", "A device driver", "An operating system"], "h": "1a65d97529a67b7f3f6ae00f3fdfb8de1bf925fc4979badcb35e1a5559c5797f"}, {"id": 38, "q": "Which of the following is TRUE regarding hardware dependency, based on the comparison chart?", "o": ["Application software must meet specific hardware needs", "System software must meet specific hardware needs; application software does not take hardware into account", "Neither type of software has any relationship with hardware", "Both software types equally depend on specific hardware"], "h": "a0c213a7c6db3b6d9c85671c97d769eb511210d487c48fb9b47148a77cc43ad0"}, {"id": 39, "q": "Which pairing correctly matches the software type with its typical programming language level?", "o": ["System software – higher-level languages; Application software – low-level/machine code", "System software – low-level/machine code; Application software – higher-level languages", "Both use only machine code", "Both use only higher-level languages"], "h": "16d4423f0cf134bb993ab6da322f82bc4bdb56a7a999c29c9cae099740924083"}, {"id": 40, "q": "Overall, the key distinguishing factor between system software and application software is:", "o": ["Their file size", "Whether they manage general system resources/hardware or perform specific user-facing tasks", "Their color scheme in the user interface", "The country where they were developed"], "h": "2914771d66fc47286ce4ce062058cd26b9cd7b20b3b2f96be5b4149f1f708424"}, {"id": 41, "q": "System software is described in the lecture as a collection of programs designed to:", "o": ["Entertain the user", "Operate, control, and extend the processing capabilities of the computer itself", "Only display advertisements", "Manage payroll calculations"], "h": "6c83c746e7272069c586ca6b349ee2e490d5bbbab944ee3c6a262d2c84579602"}, {"id": 42, "q": "System software products comprise programs written in:", "o": ["Only application-level scripting languages", "Low-level languages that interact with the hardware at a very basic level", "Only visual programming languages", "Natural spoken languages"], "h": "6671b5ec27c2d2058dca43adfc429f5596175207cdec2101b0cd3ec038a4c5e8"}, {"id": 43, "q": "System software serves as the interface between:", "o": ["Two different application programs only", "The hardware and the end users", "Two separate networks only", "The internet and email servers only"], "h": "6193035dae7ee5d164ad1c25916b5cb96710f2d4a7df4a3646597c87bdd2c1cd"}, {"id": 44, "q": "System software is often divided into which two classifications?", "o": ["Operating Systems and Utility Programs", "Application Suites and Enterprise Software", "Freeware and Shareware", "Games and Simulations"], "h": "55bdd7a29d50930d83d81c8896bf76e02e1b1650d9184bf23512ce073bedf481"}, {"id": 45, "q": "Which of the following is generally responsible for producing system software?", "o": ["Independent app developers exclusively", "Computer manufacturers", "End-user organizations only", "Marketing departments"], "h": "7134a89b4ac490ff89dbef727ea23fa9bc905f3f358a2d1d76882ee6ce041888"}, {"id": 46, "q": "Utility programs, as a subset of system software, are primarily used to:", "o": ["Create video games", "Perform maintenance or correct problems with a computer system", "Manage payroll for a company", "Design architectural blueprints"], "h": "3832976bfbd7e96c3ea231af734162e78b5a30f524963723d944dc837eaba079"}, {"id": 47, "q": "Which of the following is classified under system software?", "o": ["Microsoft Word", "Operating Systems", "Income Tax Software", "Inventory Management Software"], "h": "de04bbe13422d4ec63b386af866795e4f585c7eb835d6fa9c50f1e01e89c506e"}, {"id": 48, "q": "The operating system, as a form of system software, primarily allows:", "o": ["Users to design 3D animations", "The components of a computer to work together", "Only printing documents", "Only browsing the internet"], "h": "4f10af6739c55d265f8ff42d516ab42990c3fe11c9055bc395082cd966b24017"}, {"id": 49, "q": "Which statement about system software's interaction level with hardware is most accurate?", "o": ["It interacts with hardware at a very basic, low level", "It never interacts with hardware", "It interacts only through a web browser", "It is entirely hardware-independent"], "h": "7f60688cdf884234d837400ba0fd3b89f82399129fdd6064be8f5dcbd1f7ba24"}, {"id": 50, "q": "Which of the following would NOT typically be classified as system software?", "o": ["Windows Operating System", "An antivirus utility program", "A student record management application", "A disk defragmentation utility"], "h": "629075aab0194357d6e72c01c3d00c05ce128ad5a3907825821fcbbe7d8560b1"}, {"id": 51, "q": "What is the primary relationship between system software and end users?", "o": ["End users interact with hardware directly without any system software", "System software mediates interaction between users, hardware, and other software", "System software has no relation to end users", "End users can only interact with application software, never system software"], "h": "9b3127f5a9bcbecfd3df5edfb84f4c4b782d59c1c36434aff617f32ebf2e3da2"}, {"id": 52, "q": "Which best describes the scope of system software's purpose?", "o": ["To operate, control, and extend the processing capabilities of the computer itself", "To solve a single user's specific business problem", "To only manage a company's payroll", "To only play multimedia files"], "h": "da61fc87ee44bc560886df4beb9d4f1ba37693d586e70a6b6ef1bf7d625cee46"}, {"id": 53, "q": "In the classification hierarchy presented, Utility Programs fall under:", "o": ["Application Software", "System Software", "Enterprise Infrastructure Software only", "Entertainment Software"], "h": "2eab10578c6299014bdf1cd8b5a341c84eb97e4cad159b8af5aa8d0ac653239e"}, {"id": 54, "q": "Which of the following best explains why system software is often prepared by computer manufacturers?", "o": ["Because it requires low-level interaction with specific hardware components", "Because it is legally required to be free", "Because manufacturers only make application software", "Because users prefer manufacturer-branded interfaces"], "h": "5fb869d9ab2683f210fa3aac8729803323b13a63bf579fe15a55513fd20efec1"}, {"id": 55, "q": "Which of the following is an accurate statement about system software's classification?", "o": ["It includes only Operating Systems and no other categories", "It includes Operating Systems and Utility Programs", "It includes only Utility Programs and no operating systems", "It includes Application Suites as a subclass"], "h": "47ea87248a25572a855ecb0391e15f4f2bc9435335447de296e947d793af817b"}, {"id": 56, "q": "What is the primary function of an operating system?", "o": ["To allow the components of a computer to work together", "To only store files on a hard disk", "To only manage printer queues", "To design web pages"], "h": "10f6d23b56fdd1894126c23d4ae5a8ae668e16245ac61ad010ed0abfcc2b2bf0"}, {"id": 57, "q": "An operating system includes programs that interface which of the following pairs?", "o": ["Only users with hardware", "Users with hardware, users with software, software with hardware, and software with other software", "Only software with other software", "Only hardware with hardware"], "h": "0f4a42f542386f2dfea57fe58d5475c715a29100fb3f6c3bc3f341cf06c7741a"}, {"id": 58, "q": "Which of the following is an example of a Personal Computing Operating System?", "o": ["Android", "Windows", "HP-UX", "Palm webOS"], "h": "0e31e2486db6e4688de620ce6c24101d989e0a1c42bd22e702f9fbe2b9d08e8b"}, {"id": 59, "q": "Which of the following is an example of a Mobile Operating System?", "o": ["Windows Server", "Android", "Red Hat Linux", "HP-UX"], "h": "52d5978a312ad0f0964136abf62e0e44b6f6d3e04044e837482ae2b5ee24df66"}, {"id": 60, "q": "Which of the following is an example of a Workgroup Operating System?", "o": ["iOS", "Red Hat Linux", "Palm webOS", "MacOS"], "h": "087489a8f27dde8230f451b7164c52e3790ad40090d8b47464ba3168df9b44f9"}, {"id": 61, "q": "Which of the following is given as an example of an Embedded Operating System?", "o": ["Windows", "Palm webOS", "Linux", "HP-UX"], "h": "76810d5d8d0c75dc3bbda0f34c3621b4c65443ece669630f5258f2945dbdbe61"}, {"id": 62, "q": "Which of the following is given as an example of an Enterprise Operating System?", "o": ["Windows", "Android", "Linux", "MacOS"], "h": "997d762e915fe26edcf27b3f39b4afe5529e2857a831c193f4f986314fbd2468"}, {"id": 63, "q": "According to the lecture, into how many categories are operating systems classified based on use environment?", "o": ["Two", "Three", "Five", "Seven"], "h": "4d876811823e728691c6a02e4f3abe64060a74626b8b0fe49c973a024ff62a34"}, {"id": 64, "q": "Which category of operating system is described as being used for smartphones combining PC-like features with handheld-specific features?", "o": ["Enterprise OS", "Mobile OS", "Workgroup OS", "Embedded OS"], "h": "00f37112efb827790c9e98cb504fa65abed46895e59ed81a684efd17582265a1"}, {"id": 65, "q": "A multi-purpose electronic computer whose size, capabilities, and price make it feasible for individual use describes:", "o": ["A mainframe", "A personal computer", "A supercomputer", "An enterprise server"], "h": "52bc691ea2af8c25ac17a0205f56a3a644e54b5cdd138256a77d0eb526dec1d4"}, {"id": 66, "q": "Personal computers are intended to be operated directly by:", "o": ["Only certified computer technicians", "An end-user who is not necessarily a computer expert", "Only network administrators", "Only software developers"], "h": "7c5dd39df5fbc5986351bdb85cd6bccb19d9b1c9078023e5d6293fe4203bab42"}, {"id": 67, "q": "Which of the following operating systems is specifically listed as an example for personal computers (beyond Windows and MacOS)?", "o": ["Chrome OS", "HP-UX", "Palm webOS", "Red Hat Linux"], "h": "2252f1175963ec97284a082e4442b3719b362e975042da56ece955ecdc3ad72f"}, {"id": 68, "q": "A smartphone typically has a display that:", "o": ["Is never touch-enabled", "Is almost always a touchscreen and may have a touch-enabled keyboard", "Requires a stylus at all times", "Cannot show icons"], "h": "a1ff830104784017150bd83c6e0c1f82b8600978693cc18bc1284446de626278"}, {"id": 69, "q": "On smartphones, users can activate \"app\" features by:", "o": ["Only using a physical mouse", "Pressing onscreen icons or using a virtual keyboard", "Only using voice commands", "Only connecting to a desktop computer"], "h": "f0c70fdda5af76d9cfabb1ed57c25326e5a5e2af5923e4a5b3c12aa17678a45c"}, {"id": 70, "q": "Which two companies' mobile operating systems are specifically named in the lecture?", "o": ["Microsoft and IBM", "Apple (iOS) and Google (Android)", "Samsung and Sony", "Nokia and BlackBerry"], "h": "f1e9b593fafdb54baf2c39f70c48206e54fc9c7347eba9a986db3d8f42bf1ec0"}, {"id": 71, "q": "Business environments requiring increasing network usage, data storage, and data-processing speeds need:", "o": ["Simple embedded systems", "Powerful and sophisticated workgroup operating systems to run servers", "Only entertainment software", "Only mobile operating systems"], "h": "db46cdb68d631c3f2e31c599b9891b97e525c35a7bb9bd04523a10853d5fcf34"}, {"id": 72, "q": "Which of the following is listed as an example of a Workgroup Operating System besides Red Hat Linux?", "o": ["Windows Server", "iOS", "Palm webOS", "Chrome OS"], "h": "a0d855d747458381170efb320843af85de6a81881f7f0d413614e708b6ed4615"}, {"id": 73, "q": "Mainframe computers primarily provide:", "o": ["Limited computing capacity for a single user", "The computing and storage capacity required for massive data-processing environments", "Only entertainment functions", "Only mobile connectivity"], "h": "371d2583028ffcff4f467987f81b0f001c420f460af0fc37099e7e40df1945df"}, {"id": 74, "q": "Enterprise operating systems are capable of:", "o": ["Supporting only a single concurrent user", "Handling very heavy workloads, including thousands of concurrent users and critical applications", "Running only on smartphones", "Functioning without any application software"], "h": "d19f1d581d89af80451e72c7ba96f2d4c787c851f91b033962e90ed2badf91cc"}, {"id": 75, "q": "An embedded system is best described as:", "o": ["A standalone personal computer used for gaming", "A computer system implanted in and dedicated to the control of another device", "A cloud-based enterprise server", "A type of utility program"], "h": "990a0aa2977f6253ec08d7673162ba5fe96ab7284991311f499eddea47337ef6"}, {"id": 76, "q": "Which company developed the Palm webOS operating system according to the lecture?", "o": ["Apple", "Palm", "Google", "Microsoft"], "h": "44966049978e106b3d948c662964e4b90e1734d718195b6c31167d9bb39032cb"}, {"id": 77, "q": "Palm webOS was developed to run on which devices?", "o": ["Desktop computers", "The Pre and Pixi smartphones", "Mainframe servers", "Gaming consoles"], "h": "c17cb69a918149bd40b2802c1aeb89d7599908dfce3097cf085e0da161bbf73e"}, {"id": 78, "q": "According to the lecture, LG uses specialized embedded software in its smart TVs to enable users to:", "o": ["Only power the TV on and off", "Watch streaming content, connect to social networks, play games, get news, and download apps", "Only display a clock", "Only receive firmware updates"], "h": "1cd020142e484e615a9c3ddd363686bf7cfe39e0d0c7cce0d2f272c65ff599db"}, {"id": 79, "q": "Which of the following best matches \"MacOS X Server\" as presented in the lecture?", "o": ["Mobile Operating System", "Workgroup Operating System", "Embedded Operating System", "Personal Computing Operating System (standalone)"], "h": "b6f946c06ebe2b35ea192836a8ff25bc578e06c4aa27d334bd13e3e1b3846c6a"}, {"id": 80, "q": "Which statement is TRUE regarding UNIX as mentioned in the lecture?", "o": ["It is listed as an example of a Workgroup Operating System", "It is listed as a Mobile Operating System", "It is listed as an Embedded Operating System", "It is not mentioned at all in the lecture"], "h": "0fb4c95615e8850807411c196e0aca6a22c071bda4f8ad7e23387ee638584cbe"}, {"id": 81, "q": "Which of the following operating systems is NOT listed as an example of a personal computer OS in the lecture?", "o": ["Windows", "MacOS", "HP-UX", "Linux"], "h": "e12a8a365e1900164788d5b2c230d7ffd238c3aaa0b5946780ada70ae270e37f"}, {"id": 82, "q": "What key feature differentiates a personal computer from an enterprise mainframe according to the lecture?", "o": ["Size, capability, and price suited for individual use versus massive multi-user data processing", "Personal computers always have more storage than mainframes", "Mainframes are cheaper than personal computers", "There is no meaningful difference"], "h": "391ed7e37226f0cd9289cdbc30262398d6844ee825e65dbcf6b719737067170e"}, {"id": 83, "q": "Smartphones \"now employ full-fledged personal computer operating systems,\" which implies:", "o": ["Mobile OS and personal computer OS have become increasingly similar in capability", "Mobile OS is completely unrelated to personal computer OS", "Smartphones cannot run any operating system", "Mobile OS predates all personal computer OS"], "h": "0a0c03938912e751fef6de8f18478948041c048eed3b98509becb3d1a9e1087a"}, {"id": 84, "q": "Business technology's need to support high network usage, data storage, and processing speed is primarily addressed by:", "o": ["Entertainment software", "Workgroup operating systems", "Simple text editors", "Screensavers"], "h": "dd216039a1bc5914cd8988ba586264f881f464d2fa56a0e78883e5225fb6c1eb"}, {"id": 85, "q": "Which classification of operating system would most likely be used to run a company's central file server for a department?", "o": ["Mobile OS", "Workgroup OS", "Embedded OS", "Simulation Software"], "h": "58543bd2b03cc7cd0e1ec388dfa5e77c2d95ab454c1bc2c24009b57263950ade"}, {"id": 86, "q": "Which classification of operating system would most likely be used by a bank's central mainframe processing thousands of transactions?", "o": ["Embedded OS", "Enterprise OS", "Personal Computing OS", "Mobile OS"], "h": "04b8dcadeef6e3494c8f5de8e919d89877429a1dd02982a90f15c2b107ab3adb"}, {"id": 87, "q": "A wide range of application software developed to run in the mainframe environment allows organizations to:", "o": ["Avoid using any application software", "Purchase software to address almost any business problem", "Only run entertainment applications", "Only run device drivers"], "h": "25b5e4f055b722d4dab8e22b822643caad46616714714b91bfc17a00d1227192"}, {"id": 88, "q": "Which of the following is a defining trait of enterprise operating systems?", "o": ["Strong security, scalability, and support for high performance with many concurrent users", "Designed exclusively for single-user home computers", "Cannot run critical business applications", "Only used for embedded devices like TVs"], "h": "ad03fea512ebd0c6c6356283eb8ff44ca3534c5f006f2cf8bde3add07b1c3cf3"}, {"id": 89, "q": "A smart TV running specialized software to stream video and connect to social networks is an example of:", "o": ["Enterprise Operating System", "Embedded Operating System", "Workgroup Operating System", "Personal Computing Operating System"], "h": "5701ca49454d896315c8f9ea3d065f51568fe5560f721a4d8445c578d99a04e1"}, {"id": 90, "q": "Which of these is the best example of an embedded operating system's dedicated control function?", "o": ["A general-purpose laptop running MacOS", "Palm webOS controlling a smartphone device (Pre/Pixi) as the manufacturer intended", "A cloud server running Linux for thousands of users", "A Windows Server managing a corporate network"], "h": "f5dd68f395fe17fa926194ec91d53050576a8140b931ba9df4cc976a22cade40"}, {"id": 91, "q": "Which of the following best contrasts mobile and embedded operating systems?", "o": ["Mobile OS is used in general-purpose smartphones combining PC-like and handheld features; embedded OS is dedicated to controlling a specific device", "They are exactly identical concepts with no distinction", "Embedded OS is always more powerful than mobile OS", "Mobile OS is only used in mainframes"], "h": "5a7467a8c784638967053f7e59a79001bd7ce72825d73a7a5584d78e2974289b"}, {"id": 92, "q": "Chrome OS is used in the lecture as an example under which category?", "o": ["Enterprise Operating Systems", "Personal Computer Operating Systems", "Embedded Operating Systems", "Workgroup Operating Systems"], "h": "087045d90431052b55066bd6372e3d9c31466876cd97f19ad0825f6daa4c1ee4"}, {"id": 93, "q": "Why might an organization choose an Enterprise OS like Linux or HP-UX over a Personal Computing OS?", "o": ["To support massive data-processing environments with thousands of concurrent users", "Because Enterprise OS is cheaper to install on a laptop", "Because Personal Computing OS cannot be installed on any device", "There is no functional distinction"], "h": "53cc0cbf064f122dddeed890a8a7e8d532fd6bea338dce703e49ee5b50ea1788"}, {"id": 94, "q": "Which OS classification specifically addresses scalability and heavy business workloads at the departmental server level (not mainframe scale)?", "o": ["Workgroup Operating Systems", "Personal Computing Operating Systems", "Mobile Operating Systems", "Embedded Operating Systems"], "h": "63f90e1c562cfee62bbdf3264d37a6a37d0763e57fab95ed6737446d30a5688c"}, {"id": 95, "q": "According to the lecture, which of the following pairs correctly matches OS category with example?", "o": ["Enterprise OS – Android", "Embedded OS – Palm webOS", "Mobile OS – HP-UX", "Workgroup OS – iOS"], "h": "976df41dcd48f2489fa600acc39281a800f9cd1943b0285c57c4d29f14ffad17"}, {"id": 96, "q": "Which of the following pairs correctly matches OS category with example?", "o": ["Personal Computing OS – Windows", "Enterprise OS – Android", "Mobile OS – Red Hat Linux", "Workgroup OS – Palm webOS"], "h": "73a618062ad6427a153f729d745e7e07b0e708e637a5d10ac68ce5c146eb0b18"}, {"id": 97, "q": "Which statement is FALSE regarding mainframe computers as described in the lecture?", "o": ["They provide computing and storage capacity for massive data-processing environments", "They can support many users with high performance and excellent availability", "They are designed exclusively for individual home use", "A wide range of application software has been developed for the mainframe environment"], "h": "cdb641ba516a7ef44433fc401645cb54d5fa8a90def8bf311dac04c32cce3277"}, {"id": 98, "q": "Which of the following is a correct characteristic of embedded systems?", "o": ["They are general-purpose computers meant for multiple unrelated tasks", "They are dedicated to the control of another specific device", "They always run Windows", "They cannot include a processor"], "h": "6b45dd5319013e2a24306b9b072a4347bd7237ad428b7824d33f3506aa79c141"}, {"id": 99, "q": "Which statement best reflects the relationship between personal computer OS and mobile OS evolution described in the lecture?", "o": ["Mobile OS has completely replaced personal computer OS", "Smartphones increasingly employ full-fledged personal computer operating systems", "Personal computer OS cannot run on any handheld device", "They evolved completely independently with no overlap"], "h": "3ee0f82272328321af8e86a9dc87361f1577758aa6e070d74048a77308fc5579"}, {"id": 100, "q": "Which classification would best fit an operating system running on a jet engine's dedicated control unit?", "o": ["Mobile OS", "Embedded OS", "Enterprise OS", "Workgroup OS"], "h": "9989d3741b85af3b1402c31e005ab026c1fc2de1f80ca6810ac670cccaec3621"}, {"id": 101, "q": "Which of the following best explains why enterprise operating systems require strong security?", "o": ["They serve thousands of concurrent users running an organization's critical applications", "They are only used for personal entertainment", "Security is not a concern for enterprise systems", "They never connect to any network"], "h": "7de8f3624c15dcde3725fdd496edd69b36a5553a2d85375b09668950c600b3f3"}, {"id": 102, "q": "According to the lecture's classification, into which category would \"Red Hat Linux\" most appropriately fall?", "o": ["Mobile OS", "Workgroup OS", "Embedded OS", "Personal Computing OS only"], "h": "a98a3379343a7c1d86f8c9fbd7a2a1d730480fd50103ddd849872923e1a2a491"}, {"id": 103, "q": "What core capability must smartphones combine, according to the lecture, to be considered smartphones?", "o": ["Features of a personal computer OS with features useful for mobile/handheld use", "Only mainframe processing power", "Only basic calling functions", "Only embedded TV features"], "h": "6598fbd3e513d1b56a69a1cbf53e797915c9be47f1142239ea2a30e2c0a1e91a"}, {"id": 104, "q": "Which statement about \"scalability\" is implied in the context of enterprise/workgroup systems?", "o": ["The ability of a computer to handle an increasing number of users smoothly", "The physical size of the computer casing", "The number of colors displayed on screen", "The type of programming language used"], "h": "4311177585b4c79fca30e6b0216fd91a332ab3a622819c49ca1ed87e5697f061"}, {"id": 105, "q": "Overall, the five OS categories presented in the lecture are:", "o": ["Personal, Mobile, Workgroup, Enterprise, Embedded", "Personal, Cloud, Web, Enterprise, Gaming", "Mobile, Desktop, Server, Cloud, IoT", "System, Application, Utility, Driver, Firmware"], "h": "35ed42128a7fe8fe637d16661ced7c4a640192bfed3dfa0e66c79965b5bd4f53"}, {"id": 106, "q": "Which of the following is listed as a function performed by operating systems?", "o": ["Controlling common computer hardware functions", "Designing corporate logos", "Manufacturing semiconductors", "Writing legal contracts"], "h": "e8dfe001d3680879bb2e9e3c1ce626ba0f0ec552e7fa2d4201bae8e75cf8e403"}, {"id": 107, "q": "The OS enables applications to get input from which of the following?", "o": ["The keyboard or another input device", "Only from a printer", "Only from a scanner", "Only from another computer over Bluetooth"], "h": "b561944cb65908ccd9875fd19d847a0424544c02396a5195fe740e487223c245"}, {"id": 108, "q": "Which of the following hardware-related tasks does the OS enable applications to perform?", "o": ["Retrieve data from disks and store data on disks", "Only format the hard disk permanently", "Only overclock the CPU", "Only replace RAM modules"], "h": "c2be3a064d796d88b63f362cdf02019c530d1b78685004bf3df1802e48c67a8a"}, {"id": 109, "q": "In effect, the OS acts as an intermediary between:", "o": ["Two different users only", "The application and the hardware", "Two unrelated networks", "The internet service provider and the user"], "h": "75160c7b75a55ae91b55cb2398e49381e4376177f61d07d551be17d2227fcc4a"}, {"id": 110, "q": "Each hardware-related task (e.g., displaying information) requires:", "o": ["No instructions at all", "A detailed set of instructions that the OS converts from a basic request", "Manual rewiring of the hardware", "A separate operating system for each task"], "h": "072c0ab79ed78577f651f011e6d208748d9906210a71c29f5cf4620268c30cb6"}, {"id": 111, "q": "Which of the following is a function of the OS related to memory?", "o": ["Managing system memory to maximize use of available memory and storage", "Physically manufacturing RAM chips", "Deleting all data permanently upon boot", "Preventing any application from using memory"], "h": "7393bb52e453aa9e589920d204df92b8550a796b13bde83ce50452ba21aa4599"}, {"id": 112, "q": "The memory-management feature of an OS allows the computer to:", "o": ["Execute program instructions effectively and speed up processing", "Slow down processing intentionally", "Avoid using any memory at all", "Disable all running applications"], "h": "b8d6a002004a5ec589a4e41fb31d8dfe5af05a4e435b171805fff3424116d3d4"}, {"id": 113, "q": "According to the lecture, one way to increase the performance of an old computer is to:", "o": ["Remove the operating system entirely", "Upgrade to a newer OS and increase the amount of memory", "Disconnect it from all networks", "Uninstall all device drivers"], "h": "867a6550fb4086f91cedb5d2532c0aa6c2f040a9f5f42dbf7f3853e3c249de8b"}, {"id": 114, "q": "Which of the following is one of the most important functions of any OS regarding user interaction?", "o": ["Providing a user interface", "Manufacturing hardware components", "Writing application-specific business logic", "Managing employee payroll"], "h": "b4498f0ab71c83f3989a78b2090f4951b94a65b179cf5d3e8d31f4aa954751e4"}, {"id": 115, "q": "What are the two types of user interfaces mentioned in the lecture?", "o": ["Command Line Interface and Graphical User Interface", "Touch Interface and Voice Interface", "Wireless Interface and Wired Interface", "Cloud Interface and Local Interface"], "h": "aad3dd460dd2374b52791098d5373c2e4e7c02ffe2fe47c65a8b7c75a2a7da4c"}, {"id": 116, "q": "In a Command Line Interface (CLI), the user:", "o": ["Uses the keyboard to enter a computer command which the computer interprets and executes", "Only uses a mouse to click icons", "Cannot enter any commands", "Interacts only through voice recognition"], "h": "b49cb397debfde7c3a3fd3d6fc9a892f433802b0fb268044e60b2e2bbb650276"}, {"id": 117, "q": "Which of the following operating systems is given as an example with a command line interface?", "o": ["Mac OS", "MS-DOS", "Microsoft Windows", "Linux (GUI version)"], "h": "85248fa0f70420aaa8bb4ac764e50e0a2bb1afa96df153e9fffd96b26e86be58"}, {"id": 118, "q": "Which of the following is an example of an operating system with a Command Line Interface, alongside MS-DOS?", "o": ["AppleDOS and CP/M", "iOS and Android", "Windows Server and Chrome OS", "HP-UX and Red Hat Linux GUI"], "h": "fb68d4c59897e3d4a425593011ddac5ba791f26b4abdda0b0e765d73704e729d"}, {"id": 119, "q": "The Graphical User Interface (GUI) allows users to interact with electronic devices through:", "o": ["Text-based commands only", "Graphical icons and visual indicators", "Punch cards", "Binary switches only"], "h": "b6b58e306a71d35d01c894df093d9e34ff55d59edcfd7e284f767c8ca3ab5a07"}, {"id": 120, "q": "GUIs were introduced in reaction to:", "o": ["The perceived steep learning curve of command-line interfaces", "A shortage of keyboards", "The invention of the mouse alone", "Government regulation"], "h": "7108936a45c51f9a485c00168577817727781865a236596ef1ddb0dce3ceedd7"}, {"id": 121, "q": "Which of the following operating systems are given as examples with a GUI?", "o": ["MS-DOS, CP/M, AppleDOS", "Mac OS, Microsoft Windows, Linux Systems", "Palm webOS only", "None of the above"], "h": "2e8d896b9972713c62e234d388b2a9b274705c71897153d783d3d7c7f4f64586"}, {"id": 122, "q": "Hardware independence refers to:", "o": ["The requirement that software be rewritten every time hardware changes", "The ability of a software program to run on any platform without concern for the specific underlying hardware", "A computer that has no hardware components", "The inability of software to run on multiple platforms"], "h": "a0d4525b799bc5ca695031ac25346077d3c3e580d21234f37a8afb786c9f2f2c"}, {"id": 123, "q": "When new hardware technologies are introduced, according to the lecture, which component is required to adjust?", "o": ["The application software", "The operating system, not the application software", "Neither the OS nor the application software", "Only the device driver, never the OS"], "h": "9b6396e83eec8c30cdddfaa201b98701d2d1da2ad0527ef1fcfd29286283c547"}, {"id": 124, "q": "Which OS function allows computers to join together to send/receive data and share computing resources?", "o": ["Network Capability", "File Management", "Task Management", "Hardware Independence"], "h": "892694add4760956f210c1142e3868ad8d778259152dc5c0075bc47a4bef1127"}, {"id": 125, "q": "Operating systems for larger server computers are designed specifically for:", "o": ["Standalone offline use only", "Computer networking environments", "Only single-user gaming", "Only embedded TV control"], "h": "aec5f235724c6357ecd166ee5e5b53710678916a278cbe484180aa539b4eb92f"}, {"id": 126, "q": "Which OS function ensures files in secondary storage are available when needed and protected from unauthorized access?", "o": ["Network Capability", "File Management", "Memory Management", "Real-time Processing"], "h": "f20eb79c1f63f92dfe0e0cbe6944f4a6093a8e3200aa62110d56bb978589b8bb"}, {"id": 127, "q": "In File Management, the OS keeps track of:", "o": ["Only how much electricity the computer consumes", "Where each file is stored and who is cleared to access them", "Only the color scheme of the desktop", "Only the number of installed fonts"], "h": "058a4d32b45745fe22a07ce628979080c02a5f6797488b3bec0f459897dc2d25"}, {"id": 128, "q": "Which OS function is described as using five basic approaches to increase processing accomplished in a given time?", "o": ["Managing processing tasks", "Providing a user interface", "Hardware independence", "File compression"], "h": "9eafacaf90a7ac8ce5a8374a9d255cb91ce363485ae8c9703616d5d0b4a8bb5e"}, {"id": 129, "q": "Which of the following is one of the five basic approaches to task management mentioned in the lecture?", "o": ["Multiuser", "Single-tasking only", "Manual processing", "Offline processing"], "h": "9aa972bddc5848610f9d8761d62e5a823de8d13ee47decb68e569780a7ff91d3"}, {"id": 130, "q": "Multiuser task management allows:", "o": ["Only one user to access the computer at a time", "Two or more users to run programs at the same time on the same computer", "Only administrators to use the computer", "Users to run only one program each"], "h": "7d59fddda366aac84d699185b6b68e8dee9e2865ebf49c25f47b3de6e2c1f1fb"}, {"id": 131, "q": "The ability of a computer to handle an increasing number of concurrent users smoothly is called:", "o": ["Multitasking", "Scalability", "Multithreading", "Real-time processing"], "h": "3b79f213bb5b2607fc81448713d353aed89947ad1d1826b67af174b013c612b9"}, {"id": 132, "q": "Multiprocessing is defined in the lecture as:", "o": ["Running more than one program concurrently", "Supporting running a program on more than one CPU", "Running different threads of a single program concurrently", "Responding to input instantly"], "h": "95bd7ec108aa672c6408fddc0b503498aa005cd8962dbb99bd155ce340a739e0"}, {"id": 133, "q": "Multitasking is defined in the lecture as:", "o": ["Supporting a program running on more than one CPU", "Allowing more than one program to run concurrently", "Allowing different threads of a single program to run concurrently", "Instantly responding to input"], "h": "6312e61081eef609b6bd3a758a06d6ac285f67bef01b978e77f80935f6883737"}, {"id": 134, "q": "Multithreading is defined in the lecture as:", "o": ["Running a program on multiple CPUs", "Allowing different threads of a single program to run concurrently", "Allowing multiple users to log in simultaneously", "Instant response to input regardless of priority"], "h": "ab99aaaa35e0db5f9f6a7eb354f031583e94c4c3b13e261a5231dbdc6379cb3b"}, {"id": 135, "q": "According to the lecture, a \"thread\" is:", "o": ["A physical wire connecting components", "A set of instructions within an application that is independent of other threads", "A type of network cable", "A user account on the system"], "h": "85e29358b4a81f635c29632cfcb9f33683554d88a839eb3ea8fdac675c2c8f0d"}, {"id": 136, "q": "In a spreadsheet program example from the lecture, which of the following illustrates multithreading?", "o": ["The thread to open the workbook is separate from the thread to sum a column of figures", "Two users editing the same file on two different computers", "Two CPUs processing the same instruction", "A printer and a scanner working together"], "h": "91133ed66bfffeb5bbed835c573f9f1fc3ed7ecc706c073dc5e9713add1e70a9"}, {"id": 137, "q": "Real-time task management is defined as:", "o": ["Delaying input processing until the system is idle", "Responding to input instantly, potentially stopping any task if a higher priority task needs to run", "Ignoring all interrupts", "Only used for word processing"], "h": "7a9fb4ca35dd8b85072916549f2beb3711dfce20875eef20145e50d862606810"}, {"id": 138, "q": "Which of the following is an example use of a real-time operating system mentioned in the lecture?", "o": ["Controlling jet engines, air bag deployment, and antilock braking systems", "Running a spreadsheet application", "Displaying a screensaver", "Managing email spam filters"], "h": "013816ba63465689b354b40b929e49fd18893d5c90544b0b67a6b0d421c5a423"}, {"id": 139, "q": "Which of the five task management approaches specifically allows a task scheduler to stop any task at any point if a higher priority task needs to run?", "o": ["Multiuser", "Multiprocessing", "Real time", "Multitasking"], "h": "c24a9f5cef424963f99fb7d08e25eb68d74a01679d0424b7737963f255f81ae7"}, {"id": 140, "q": "Which OS function establishes a logon procedure requiring a username and password?", "o": ["Access to System Resources and Security", "File Compression", "Hardware Independence", "Network Capability"], "h": "aaa0ac7528574d34379cb0621cfc5dd42bcd1f4ce49822794abeb08b160130b2"}, {"id": 141, "q": "When a user successfully logs on to the system, the OS:", "o": ["Grants unrestricted access to the entire system regardless of authorization", "Permits access only to the portions of the system for which the user has been authorized", "Immediately shuts down all other users' sessions", "Deletes the user's password"], "h": "bf34e6e23b83e12c56bbeac41f49637c88ea7cf41918b2eec006a33989ebe781"}, {"id": 142, "q": "Which of the following is part of the OS's security function according to the lecture?", "o": ["Recording who is using the system and for how long, and reporting attempted security breaches", "Only displaying advertisements to unauthorized users", "Allowing anonymous access to all files by default", "Disabling passwords for convenience"], "h": "d1ede470ee3aefbd1e48ec3bcb18394dac2e790f54213c56db76cdf3d76e3279"}, {"id": 143, "q": "Why does the OS need to provide a high level of security, according to the lecture?", "o": ["Because computers often handle sensitive data that can be accessed over networks", "Because security has no relevance to computing", "Because only mobile devices require security", "Because passwords are outdated technology"], "h": "1e796a0439e096690a99f5148c9c448fe1ba665b8507753a85e7febac09cc9f1"}, {"id": 144, "q": "Which of the following best lists the major functions of an OS as presented in the lecture?", "o": ["Control hardware functions, manage memory, provide UI, provide hardware independence, network capability, file management, manage processing tasks, and provide security", "Only provide entertainment and manage payroll", "Only compile programming languages", "Only design graphics and manage color schemes"], "h": "0fe424a07b0601a86e8befe7e4578ce5f21680ad130857de6cbd01f256e079d9"}, {"id": 145, "q": "Which of the following best describes the OS's role in hardware independence, in terms of practical impact for software developers?", "o": ["Developers must rewrite applications whenever hardware changes", "Developers can build applications without concern for the specific underlying hardware, since the OS adjusts instead", "Developers must design their own hardware drivers for every device", "Hardware independence has no effect on application development"], "h": "0968b1afaf79c27a51f81fe2c6af284b39ea5e34976f589738192b8f059dfd65"}, {"id": 146, "q": "A scenario: A user opens a word processor while simultaneously running a spreadsheet program on the same single-user PC. Which task management approach best explains this scenario?", "o": ["Multitasking", "Multiuser", "Real time only", "None of the above"], "h": "46b5477ad13a232eed6b00f3324071f734a422b562a118a2b458cbcc1ec0ca2a"}, {"id": 147, "q": "A scenario: A hospital server allows 200 doctors to log in and run programs simultaneously on the same central computer. This best exemplifies:", "o": ["Multithreading", "Multiuser", "Real time", "Hardware independence"], "h": "3eab02c6f2d27e9142976cc39730444b089053dc60aeb7e15d677f8c3d3e2a98"}, {"id": 148, "q": "A scenario: An airbag deployment system must respond within milliseconds of a collision, interrupting any lower-priority task. This best exemplifies:", "o": ["Multiprocessing", "Real time", "Multiuser", "File management"], "h": "8d91685d4d0d403ae2158ab067d6120d4999423786b427d685eca920b9d90b45"}, {"id": 149, "q": "A scenario: A single program divides its workload so that saving a file and spell-checking happen concurrently within the same application. This best exemplifies:", "o": ["Multithreading", "Multiuser", "Multiprocessing", "Real time"], "h": "fb93a1e2b2b40f8071797f270c3f8d8754f42caa1eb1620f85cedb29d6632a24"}, {"id": 150, "q": "A scenario: A single computationally heavy program is split so that different parts run simultaneously across two separate CPUs. This best exemplifies:", "o": ["Multitasking", "Multiprocessing", "Multiuser", "Real time"], "h": "701811be3849ea53bbdf7c3b64faa061718534ce8372d19215142ba5d54a2652"}, {"id": 151, "q": "A utility program is best defined as:", "o": ["A program that helps perform maintenance or correct problems with a computer system", "A program used only to browse the internet", "A type of hardware component", "A programming language"], "h": "e20e849fb6c83397c26cb8900fcb4552def7fe783c3face72e1d88ee4241cd72"}, {"id": 152, "q": "Utility programs can be used to do which of the following?", "o": ["Boost the performance of a slow PC and repair registry/hard drive errors", "Physically repair a cracked screen", "Replace the CPU", "Design a company logo"], "h": "7f9d81b8688dc1697474a45374de4495afa47cc6d01b3375752e674b45e5882a"}, {"id": 153, "q": "Which of the following is listed as a common type of utility program?", "o": ["Hardware utilities", "Payroll utilities", "Railway reservation utilities", "Income tax utilities"], "h": "1bc3716b4128b20182e76d64096b686690cc4e0a3c722d56c236ebb3356b4873"}, {"id": 154, "q": "Hardware utilities are used to:", "o": ["Check the status of all parts of the PC and repair, maintain, and optimize system types", "Only create spreadsheets", "Only manage email accounts", "Only edit video files"], "h": "39772520efb68c33a7352bcc595d054594588248fd1c9bc63f7f101600269d59"}, {"id": 155, "q": "Which of the following is classified as a Security Utility?", "o": ["Anti-malware utilities and Firewall software", "A spreadsheet package", "A media player", "A CAD tool"], "h": "971a73c65945a02fd0d4352dd9899af5b3cd6aea2848849b2f06a5ad98f58135"}, {"id": 156, "q": "Anti-malware utilities function by:", "o": ["Constantly monitoring and protecting a computer, and removing viruses/malware if found", "Creating new viruses for testing purposes", "Only formatting the hard disk", "Only managing printer settings"], "h": "965cb72da3e034b307795d1be12f618782541ee8a22e94a81b408cacd4c82047"}, {"id": 157, "q": "File compression utilities are primarily used to:", "o": ["Increase the size of files unnecessarily", "Reduce the amount of disk space required to store a file or reduce transfer time over the internet", "Delete files permanently without recovery", "Only compress video files, never documents"], "h": "8590c34e286bca95664e2509bdf5214816aea61670dfb80212b4770e749245ec"}, {"id": 158, "q": "Spam filtering utilities assist users by:", "o": ["Sending more promotional emails", "Filtering unwanted spam emails", "Compressing image files", "Managing hardware drivers"], "h": "c89ae181d43340ae715afe82ac86151bc87f59aeb924195d0680643140e83082"}, {"id": 159, "q": "Network and internet utilities are used to:", "o": ["Monitor hardware and network performance and trigger alerts for server crashes or network problems", "Only design websites", "Only edit documents", "Only manage payroll records"], "h": "fa0ade8229a858100ac359742f274f50c9ac2e6b06f84587d5f0a7f7f4e002d0"}, {"id": 160, "q": "Server and mainframe utilities are designed to:", "o": ["Enhance the performance of servers and mainframe computers", "Replace the need for an operating system entirely", "Only function on personal smartphones", "Only play multimedia content"], "h": "5d81dd232888ebf3faf01156e8b5f4a6caaa5b6a59083aa5e079b54451aca4c6"}, {"id": 161, "q": "Which of the following is NOT listed as a common type of utility program in the lecture?", "o": ["Hardware utilities", "Security utilities", "Media development software", "File compression utilities"], "h": "b2262376aa5ecd5459f2e80bbd61132c1e53149b078b919a6cde9f1251ad5fb1"}, {"id": 162, "q": "Firewall software is categorized under which type of utility program?", "o": ["Security utilities", "File compression utilities", "Spam filtering utilities", "Server utilities"], "h": "985280c07235783734e00a79e9123bcb73c58938cf84f4f323586b5d39e02000"}, {"id": 163, "q": "Which of the following best summarizes the overall purpose of utility programs?", "o": ["To boost performance, repair errors, remove unnecessary files, improve security/privacy, and optimize sluggish processes", "To replace application software entirely", "To function as a programming language", "To serve only as entertainment software"], "h": "148b0de79e4f26df21de684693e9e36c9d32f720f519ace05807c1cff5e7240b"}, {"id": 164, "q": "If a user wants to reduce the time it takes to transfer a large file over the Internet, which utility would be most appropriate?", "o": ["A file compression utility", "A spam filtering utility", "A hardware utility", "A network monitoring utility"], "h": "62b6b6a1b5dce8d649040c4dda71e6a700de91e130b8ddcf13c8020be9ef800a"}, {"id": 165, "q": "If a network administrator wants to be alerted automatically when a server is about to crash, which utility category is most relevant?", "o": ["Network and internet utilities", "File compression utilities", "Spam filtering utilities", "Hardware utilities"], "h": "08e7d4393e2b150f85eb57ab56e2f346ac74cfa05fa029a3e2d8877fcd7fabfd"}, {"id": 166, "q": "Which type of utility would be most relevant for repairing errors in the registry and removing unnecessary files from a slow PC?", "o": ["General/hardware maintenance utilities", "Spam filtering utilities", "Enterprise infrastructure software", "Educational software"], "h": "f08ebf916954cf064f0f74e421630a6e4587bab131b6176786c4e763f7a7aa38"}, {"id": 167, "q": "Which utility category directly relates to protecting a computer from viruses and unauthorized intrusion via a firewall?", "o": ["Security utilities", "Media development software", "Simulation software", "Content access software"], "h": "91c314467ab9620dc21c48885840bf7fb3eb2c40104f0d8d0dfbce70091011af"}, {"id": 168, "q": "Utility programs are best classified as a subtype of:", "o": ["Application Software", "System Software", "Enterprise Software", "Entertainment Software"], "h": "4da9564a06ecffcb9ab8320a6c775fbd729837e0f2a2138cdaf9665fb1eae2c2"}, {"id": 169, "q": "Which of the following scenarios best illustrates the use of a file compression utility?", "o": ["Zipping a large folder of documents before emailing it to reduce its size", "Installing a new printer driver", "Logging in with a username and password", "Running a spreadsheet macro"], "h": "e8b3a444edcab14dd3716c686efa4634d7a810ba68e9df62a1c5d8b61ad51e82"}, {"id": 170, "q": "Which of the following scenarios best illustrates the use of a security utility?", "o": ["An antivirus program scanning and removing a detected malware file", "A file compression tool zipping a document", "A media player streaming a video", "A CAD tool designing a bridge"], "h": "7bec648a8346d8540befafa48c7ecd9cc1327fe1b16bdfc72f4bf9975045a277"}, {"id": 171, "q": "A device driver is best defined as:", "o": ["A computer program that operates or controls a particular kind of device attached to a computer", "A physical cable connecting hardware components", "A type of application suite", "A network protocol"], "h": "d99bb4bad659782f88571d96df042ca7329909d55e3c2ec00ad1d37d960dc93c"}, {"id": 172, "q": "Device drivers provide:", "o": ["An interface for a device", "Entertainment content for users", "Payroll calculations", "Spreadsheet formulas"], "h": "d29ed1868f4dd68fe053d1c28a555603e9a355c548ae777b84759d0bed9aadb4"}, {"id": 173, "q": "Drivers enable operating systems and other programs to access device functions:", "o": ["Only by rewriting the entire OS", "Without needing to know precise details of the hardware", "Only through manual hardware reconfiguration", "Only via command-line interfaces"], "h": "c6feb6457f900090a1d44f68ec08290000a7a597d0e7d63217a3049b3cb49606"}, {"id": 174, "q": "When a new device is installed on a computer, according to the lecture:", "o": ["No driver installation is ever needed", "Its drivers must also be installed", "Only the OS needs reinstalling, not the driver", "Drivers are irrelevant to installation"], "h": "88c794e97c44197bf367eddf0a50bef2b4ebd33b9bb98a7bbb0d4b547262a4f7"}, {"id": 175, "q": "The OS uses device drivers provided by:", "o": ["End users who write their own code", "Device manufacturers", "Random third-party websites only", "Utility program vendors exclusively"], "h": "f528fed0e7f601562cabbebc5881c663ee0cc53560fc3f84b41b0b0680c7a44f"}, {"id": 176, "q": "Where are hardware drivers typically obtained from, according to the lecture?", "o": ["The device manufacturer's website or an installation DVD", "Only from the operating system vendor", "Only from social media", "Only from utility program suites"], "h": "c241319bf17272873408338aaafd064cf65fda126b333a972ea8214db2934262"}, {"id": 177, "q": "Which of the following is listed as an example of a device driver in the lecture?", "o": ["Keyboard Driver", "Payroll Driver", "Spreadsheet Driver", "Enterprise Driver"], "h": "9ffd9ff131745957de4dab17eb518612e85f2d5c2dfa356b8675e6c706cca134"}, {"id": 178, "q": "Which of the following is listed as an example of a device driver in the lecture?", "o": ["Graphics Card Driver", "Income Tax Driver", "CRM Driver", "Educational Software Driver"], "h": "445376226753ca02ebfed810dc7cfcb53c7aa7c19798cfee58ff34c1d6dd899f"}, {"id": 179, "q": "Which of the following is listed as an example of a device driver in the lecture?", "o": ["Bluetooth Driver", "Media Player Driver (not listed)", "Simulation Driver", "Enterprise Infrastructure Driver"], "h": "08f5b62c64f32a2c92ad3155ffc9bc2e3fd27b6d4750e28e2b9d6caf5edb4dad"}, {"id": 180, "q": "When is a device driver typically installed, according to the lecture?", "o": ["Only after the computer has been used for one year", "When the hardware is first connected to the computer system", "Only during OS uninstallation", "Drivers are never installed; they come pre-embedded in hardware permanently"], "h": "5d766cf880a81765fd94607120bea31ad03dd167bb0bacb19c887b2a7746dd52"}, {"id": 181, "q": "Application software products are designed to:", "o": ["Satisfy a particular need of a particular environment", "Only manage hardware resources", "Only interact with device drivers", "Replace the operating system"], "h": "d577995d09a730e982ae7286dc786e993b9501b767dc5bd9216aecf486a6578f"}, {"id": 182, "q": "Which of the following is an example of application software listed in the lecture?", "o": ["Railways Reservation Software", "Windows Operating System", "A Keyboard Driver", "An Anti-malware Utility"], "h": "2d80605223354933ad85ecb35129ea0a430b61e191f2182fce179d05f138756b"}, {"id": 183, "q": "An \"application suite\" is best described as:", "o": ["A single standalone application with no related functions", "Multiple applications bundled together with related functions and similar user interfaces that can interact with each other", "A type of device driver", "A type of operating system"], "h": "ba856de3e5eec90875a989cd2edb0f616d5177037e07248f684d261ac6d04dee"}, {"id": 184, "q": "Which of the following is given as an example of an application suite?", "o": ["Microsoft Office, LibreOffice, and iWork", "Windows, MacOS, and Linux", "Android, iOS, and Chrome OS", "HP-UX and Red Hat Linux"], "h": "558cf11338140c819c5fcd56058ee617994b0169ebba08bf1141380a9c95585f"}, {"id": 185, "q": "Enterprise software addresses:", "o": ["The needs of an entire organization's processes and data flows across departments", "Only a single individual's personal hobby project", "Only smartphone entertainment needs", "Only device driver installation"], "h": "afb8f3315d7bf4658efea858e2e96f2485e3e403ab3509fb83f4d05c77dabb19"}, {"id": 186, "q": "Which of the following is an example of Enterprise Software?", "o": ["Enterprise resource planning (ERP) systems and CRM systems", "A screensaver", "A media player", "A keyboard driver"], "h": "c36d7e076a50c9027e7d50812ffec307920168179a711875654fa859b0d6f8be"}, {"id": 187, "q": "Enterprise infrastructure software provides:", "o": ["Common capabilities needed to support enterprise software systems, such as databases and email servers", "Only entertainment features for individual users", "Only word processing capabilities", "Only device driver management"], "h": "5a6407683943e63809cc6dc906a79f76027929373542fbddd269a1407bf79679"}, {"id": 188, "q": "Which of the following is an example of Enterprise Infrastructure Software?", "o": ["Databases, email servers, and systems for managing networks and security", "Microsoft Word", "A videogame", "A CAD tool"], "h": "c08d060bea15672c994b79709bf7998cb3c460664ff46f7d1126f5cbacbbcdd6"}, {"id": 189, "q": "Information worker software is best described as software that:", "o": ["Lets users create and manage information, often for individual projects within a department", "Manages an entire organization's enterprise-wide data flows", "Is used only for embedded device control", "Is a type of operating system"], "h": "c1e6ddb2009a3d08b6e1f18fac7571f56300aa5a490ef8212e4317a8ff680ec5"}, {"id": 190, "q": "Which of the following is an example of Information Worker Software?", "o": ["Time management, resource management, and analytical/collaborative tools", "An operating system kernel", "A device driver", "A firewall utility"], "h": "ea35497bb0429517e4752d95daf31f7ce1f6eb20121ab59bdb7a51e43ebc352c"}, {"id": 191, "q": "Content access software is primarily used to:", "o": ["Access content without editing, addressing needs to consume digital entertainment and published content", "Only edit source code", "Only manage payroll", "Only control embedded devices"], "h": "4868208892b6d1f13be5db1849bf282a9ea75c7334aa22882a9c5f668c155240"}, {"id": 192, "q": "Which of the following is an example of Content Access Software?", "o": ["Media players, web browsers, and help browsers", "ERP systems", "CAD tools", "Device drivers"], "h": "2d2a8c9d79a4f14ef454bd32a07684e903ec142fa3f64caf1be3d69070c0709a"}, {"id": 193, "q": "Educational software is described as being related to which type of software, but adapted for educators/students?", "o": ["Content access software", "Enterprise infrastructure software", "Simulation software only", "Device driver software"], "h": "12c2039d69cb9470313dc1d081a3d059750f25b6b66f78d3f6a1ec98f2aa956d"}, {"id": 194, "q": "Which of the following features may educational software include?", "o": ["Delivering evaluations (tests), tracking progress, and collaborative capabilities", "Only compiling machine code", "Only managing hardware drivers", "Only performing file compression"], "h": "02cf388690f998524230eb4a3952af90c020795f3195385330c7cf363165d9a5"}, {"id": 195, "q": "Simulation software is used to:", "o": ["Simulate physical or abstract systems for research, training, or entertainment purposes", "Only manage email servers", "Only filter spam", "Only compress files"], "h": "42e0f0351d26446961976472effac893cb3e4cbd96d33d8ca0d14a5b0952aca7"}, {"id": 196, "q": "Media development software is used to:", "o": ["Generate print and electronic media for others to consume, often in commercial or educational settings", "Only monitor network performance", "Only manage user logon security", "Only serve as a mobile operating system"], "h": "b8a6b7104b5332cd96d74eda24a4fea2db207e002380bdbaf7a08c42a9276d92"}, {"id": 197, "q": "Which of the following is an example of Media Development Software?", "o": ["Graphic-art, desktop publishing, digital audio/multimedia development software, and HTML editors", "A firewall utility", "A device driver", "An enterprise resource planning system"], "h": "0967e6a005da340242fbc724b0a112bc04147a8682240996fc9d8ad82dc81d7c"}, {"id": 198, "q": "Product engineering software is used in:", "o": ["Developing hardware and software products", "Only managing payroll systems", "Only filtering spam emails", "Only controlling embedded jet engine systems directly as an OS"], "h": "8cde9ae0fcfa7cf64cee48b583bac771b65fbc72760a4d61a43a6ab2bdd51aeb"}, {"id": 199, "q": "Which of the following is an example of Product Engineering Software?", "o": ["CAD, CAE, computer language editing/compiling tools, and application programmer interfaces", "A media player", "A spam filter", "A firewall"], "h": "f7b7fa9da997531a1e1ed23002091d0abdcd8d370d55dde8c7fd9d1c39c03b91"}, {"id": 200, "q": "Entertainment software can refer to which of the following?", "o": ["Videogames, screensavers, and programs to display motion pictures or play recorded music", "Only enterprise resource planning systems", "Only device drivers", "Only network monitoring utilities"], "h": "8ad99ed32753308c4e3d32a299daf0f4c81eea7d7f06baa9e5282bca236d7bb4"}]}</script>
 
 <script>
 (function(){
-"use strict";
+  "use strict";
 
-/* ---- lightweight deterrent: this does not make the source unreadable,
-   it just discourages casual right-click / devtools use during a quiz ---- */
-document.addEventListener('contextmenu', function(e){ e.preventDefault(); showToast('Right-click is disabled during the quiz.'); });
-document.addEventListener('keydown', function(e){
-  var k = e.key;
-  if (k === 'F12' || (e.ctrlKey && e.shiftKey && (k==='I'||k==='J'||k==='C')) || (e.ctrlKey && k==='u')) {
-    e.preventDefault();
-    showToast('Inspection is disabled during the quiz.');
+  const raw = JSON.parse(document.getElementById('quiz-data').textContent);
+  const SALT = raw.salt;
+  const BANK = raw.items; // {id, q, o[4], h}
+
+  // ---------- theme ----------
+  const themeToggle = document.getElementById('themeToggle');
+  function setTheme(mode){
+    document.documentElement.setAttribute('data-theme', mode);
+    themeToggle.innerHTML = mode === 'dark' ? '&#9788;' : '&#9789;';
   }
-});
-
-function showToast(msg){
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._h);
-  t._h = setTimeout(function(){ t.classList.remove('show'); }, 2200);
-}
-
-/* ---- obfuscated question bank: base64(XOR(base64(JSON))) ---- */
-var _E = "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";
-var _K = "COM1301_quiz_v1";
-function _decode(enc, key){
-  var xored = atob(enc);
-  var b64 = "";
-  for (var i=0;i<xored.length;i++){
-    b64 += String.fromCharCode(xored.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-  }
-  var json = decodeURIComponent(escape(atob(b64)));
-  return JSON.parse(json);
-}
-var BANK = _decode(_E, _K); // [{q, o:[4], a:index}, ...]
-
-/* ---- state ---- */
-var state = {
-  pool: [],       // shuffled subset of BANK for this attempt, each with shuffled options
-  answers: [],     // selected index per question (or -1)
-  flags: [],
-  current: 0,
-  size: 50
-};
-
-function shuffle(arr){
-  var a = arr.slice();
-  for (var i=a.length-1;i>0;i--){
-    var j = Math.floor(Math.random()*(i+1));
-    var t=a[i]; a[i]=a[j]; a[j]=t;
-  }
-  return a;
-}
-
-function buildAttempt(n){
-  var picked = shuffle(BANK).slice(0, n);
-  state.pool = picked.map(function(item){
-    var order = shuffle([0,1,2,3]);
-    var opts = order.map(function(idx){ return item.o[idx]; });
-    var newCorrect = order.indexOf(item.a);
-    return { q:item.q, o:opts, a:newCorrect };
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark ? 'dark' : 'light');
+  themeToggle.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme');
+    setTheme(cur === 'dark' ? 'light' : 'dark');
   });
-  state.answers = new Array(n).fill(-1);
-  state.flags = new Array(n).fill(false);
-  state.current = 0;
-  state.size = n;
-}
 
-/* ---- start screen ---- */
-var chosenN = 50;
-document.getElementById('lengthChoice').addEventListener('click', function(e){
-  var chip = e.target.closest('.chip');
-  if (!chip) return;
-  document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
-  chip.classList.add('active');
-  chosenN = parseInt(chip.getAttribute('data-n'),10);
-});
-document.getElementById('startBtn').addEventListener('click', function(){
-  buildAttempt(chosenN);
-  document.getElementById('screen-start').classList.add('hidden');
-  document.getElementById('screen-quiz').classList.remove('hidden');
-  renderNavGrid();
-  renderQuestion();
-});
+  // ---------- back to top ----------
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', ()=>{
+    backToTopBtn.classList.toggle('show', window.scrollY > 300);
+  });
+  backToTopBtn.addEventListener('click', ()=>{
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
 
-/* ---- quiz rendering ---- */
-function renderQuestion(){
-  var i = state.current;
-  var item = state.pool[i];
-  document.getElementById('qCounter').textContent = 'Question ' + (i+1) + ' of ' + state.size;
-  document.getElementById('qText').textContent = item.q;
-  var flagged = state.flags[i];
-  var flagBtn = document.getElementById('flagBtn');
-  flagBtn.textContent = (flagged ? '★ Flagged' : '☆ Flag question');
-  flagBtn.classList.toggle('on', flagged);
+  // ---------- crypto helper ----------
+  async function sha256(msg){
+    const enc = new TextEncoder().encode(msg);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  function norm(s){ return s.trim().toLowerCase(); }
 
-  var list = document.getElementById('optionsList');
-  list.innerHTML = '';
-  var letters = ['A','B','C','D'];
-  item.o.forEach(function(optText, idx){
-    var li = document.createElement('li');
-    li.className = 'option' + (state.answers[i]===idx ? ' selected' : '');
-    li.innerHTML = '<span class="letter">'+letters[idx]+'</span><span>'+escapeHtml(optText)+'</span>';
-    li.addEventListener('click', function(){
-      state.answers[i] = idx;
+  // ---------- shuffle ----------
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ---------- state ----------
+  let attempt = [];
+  let current = 0;
+  let timerInterval = null;
+  let timeLeft = 0;
+
+  const el = id => document.getElementById(id);
+
+  el('startBtn').addEventListener('click', startQuiz);
+  el('prevBtn').addEventListener('click', ()=>goTo(current-1));
+  el('nextBtn').addEventListener('click', ()=>goTo(current+1));
+  el('finishBtn').addEventListener('click', showSummary);
+  el('sideFinishBtn').addEventListener('click', showSummary);
+  el('returnBtn').addEventListener('click', ()=>{ show('quizScreen'); renderQuestion(); });
+  el('submitBtn').addEventListener('click', finishAttempt);
+  el('reviewBtn').addEventListener('click', toggleReview);
+  el('retryBtn').addEventListener('click', resetToStart);
+  el('backBtn').addEventListener('click', navigateBack);
+
+  function currentScreenId(){
+    return ['startScreen','quizScreen','summaryScreen','resultsScreen'].find(id=>!el(id).classList.contains('hidden'));
+  }
+
+  function show(screenId){
+    ['startScreen','quizScreen','summaryScreen','resultsScreen'].forEach(id=>{
+      el(id).classList.toggle('hidden', id!==screenId);
+    });
+    el('backBtn').classList.toggle('hidden', screenId==='startScreen');
+    window.scrollTo({ top:0, behavior:'auto' });
+  }
+
+  function navigateBack(){
+    const s = currentScreenId();
+    if(s === 'quizScreen'){
+      if(attempt.length && confirm('Leave this attempt and return to the start screen? Your progress will be lost.')){
+        resetToStart();
+      }
+    } else if(s === 'summaryScreen'){
+      show('quizScreen');
       renderQuestion();
-      renderNavGrid();
+    } else if(s === 'resultsScreen'){
+      resetToStart();
+    }
+  }
+
+  function resetToStart(){
+    if(timerInterval) clearInterval(timerInterval);
+    el('finishBtn').classList.add('hidden');
+    el('timerDisplay').classList.add('hidden');
+    attempt = [];
+    current = 0;
+    show('startScreen');
+  }
+
+  function startQuiz(){
+    const n = parseInt(el('numQ').value, 10);
+    const tl = parseInt(el('timeLimit').value, 10);
+
+    const chosen = shuffle(BANK).slice(0, n);
+    attempt = chosen.map(item=>{
+      const optOrder = shuffle([0,1,2,3]);
+      const options = optOrder.map(i=>item.o[i]);
+      return {
+        id: item.id,
+        q: item.q,
+        options,
+        h: item.h,
+        selected: null
+      };
     });
-    list.appendChild(li);
-  });
+    current = 0;
 
-  document.getElementById('prevBtn').disabled = (i===0);
-  document.getElementById('nextBtn').textContent = (i===state.size-1) ? 'Finish attempt ▸' : 'Next ▸';
-  updateProgress();
-}
+    if(tl > 0){
+      timeLeft = tl;
+      el('timerDisplay').classList.remove('hidden');
+      updateTimerDisplay();
+      timerInterval = setInterval(()=>{
+        timeLeft--;
+        updateTimerDisplay();
+        if(timeLeft<=0){
+          clearInterval(timerInterval);
+          finishAttempt();
+        }
+      },1000);
+    } else {
+      el('timerDisplay').classList.add('hidden');
+    }
 
-function escapeHtml(s){
-  var d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
+    el('finishBtn').classList.remove('hidden');
+    buildGrid();
+    show('quizScreen');
+    renderQuestion();
+  }
 
-document.getElementById('flagBtn').addEventListener('click', function(){
-  state.flags[state.current] = !state.flags[state.current];
-  renderQuestion();
-  renderNavGrid();
-});
-document.getElementById('prevBtn').addEventListener('click', function(){
-  if (state.current>0){ state.current--; renderQuestion(); renderNavGrid(); }
-});
-document.getElementById('nextBtn').addEventListener('click', function(){
-  if (state.current < state.size-1){ state.current++; renderQuestion(); renderNavGrid(); }
-  else { showConfirmScreen(); }
-});
-document.getElementById('finishBtn').addEventListener('click', showConfirmScreen);
+  function updateTimerDisplay(){
+    const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+    const s = (timeLeft%60).toString().padStart(2,'0');
+    el('timerDisplay').textContent = m+':'+s;
+  }
 
-function renderNavGrid(){
-  var grid = document.getElementById('navGrid');
-  grid.innerHTML = '';
-  for (var i=0;i<state.size;i++){
-    (function(i){
-      var sq = document.createElement('div');
-      sq.className = 'navsq' +
-        (state.answers[i]>-1 ? ' answered' : '') +
-        (i===state.current ? ' current' : '') +
-        (state.flags[i] ? ' flagged' : '');
-      sq.textContent = i+1;
-      sq.addEventListener('click', function(){
-        state.current = i;
+  function buildGrid(){
+    const grid = el('qgrid');
+    grid.innerHTML = '';
+    attempt.forEach((item, idx)=>{
+      const b = document.createElement('button');
+      b.textContent = idx+1;
+      b.addEventListener('click', ()=>{ show('quizScreen'); goTo(idx); });
+      grid.appendChild(b);
+    });
+    updateGrid();
+  }
+
+  function updateGrid(){
+    const buttons = el('qgrid').querySelectorAll('button');
+    let answeredCount = 0;
+    buttons.forEach((b, idx)=>{
+      b.classList.remove('current','answered','correct','incorrect');
+      if(attempt[idx].selected!==null){
+        b.classList.add('answered');
+        answeredCount++;
+      }
+      if(idx===current) b.classList.add('current');
+    });
+    el('progressFill').style.width = (answeredCount/attempt.length*100)+'%';
+    el('progressLabel').textContent = answeredCount+' of '+attempt.length+' answered';
+  }
+
+  function renderQuestion(){
+    const item = attempt[current];
+    el('qTitle').textContent = 'Question '+(current+1)+' of '+attempt.length;
+    el('qText').textContent = item.q;
+
+    const statusEl = el('qStatus');
+    if(item.selected!==null){
+      statusEl.textContent = 'Answered';
+      statusEl.className = 'q-status answered';
+    } else {
+      statusEl.textContent = 'Not yet answered';
+      statusEl.className = 'q-status unanswered';
+    }
+
+    const letters = ['A','B','C','D'];
+    const optWrap = el('qOptions');
+    optWrap.innerHTML = '';
+    item.options.forEach((optText, idx)=>{
+      const row = document.createElement('label');
+      row.className = 'option' + (item.selected===idx ? ' selected' : '');
+      row.innerHTML = `<input type="radio" name="opt" ${item.selected===idx?'checked':''}>
+                        <span class="opt-letter">${letters[idx]}.</span>
+                        <span>${escapeHtml(optText)}</span>`;
+      row.addEventListener('click', ()=>{
+        item.selected = idx;
         renderQuestion();
-        renderNavGrid();
+        updateGrid();
       });
-      grid.appendChild(sq);
-    })(i);
-  }
-}
-
-function updateProgress(){
-  var answered = state.answers.filter(function(a){return a>-1;}).length;
-  var pct = Math.round(answered/state.size*100);
-  document.getElementById('progressFill').style.width = pct+'%';
-  document.getElementById('progressLabel').textContent = answered+' of '+state.size+' answered';
-}
-
-/* ---- confirm / summary screen ---- */
-function showConfirmScreen(){
-  document.getElementById('screen-quiz').classList.add('hidden');
-  document.getElementById('screen-confirm').classList.remove('hidden');
-  var grid = document.getElementById('confirmGrid');
-  grid.innerHTML = '';
-  for (var i=0;i<state.size;i++){
-    (function(i){
-      var sq = document.createElement('div');
-      sq.className = 'navsq' + (state.answers[i]>-1 ? ' answered':'') + (state.flags[i]?' flagged':'');
-      sq.textContent = i+1;
-      sq.addEventListener('click', function(){
-        state.current = i;
-        document.getElementById('screen-confirm').classList.add('hidden');
-        document.getElementById('screen-quiz').classList.remove('hidden');
-        renderQuestion(); renderNavGrid();
-      });
-      grid.appendChild(sq);
-    })(i);
-  }
-  var unanswered = state.answers.filter(function(a){return a===-1;}).length;
-  document.getElementById('confirmWarning').textContent = unanswered>0
-    ? unanswered + ' question(s) not yet answered.'
-    : 'All questions answered.';
-}
-document.getElementById('backToAttemptBtn').addEventListener('click', function(){
-  document.getElementById('screen-confirm').classList.add('hidden');
-  document.getElementById('screen-quiz').classList.remove('hidden');
-  renderQuestion(); renderNavGrid();
-});
-document.getElementById('submitAllBtn').addEventListener('click', function(){
-  document.getElementById('screen-confirm').classList.add('hidden');
-  showResults();
-});
-
-/* ---- results ---- */
-function showResults(){
-  document.getElementById('screen-results').classList.remove('hidden');
-  var correct = 0;
-  state.pool.forEach(function(item,i){ if (state.answers[i]===item.a) correct++; });
-  var pct = Math.round(correct/state.size*100);
-  document.getElementById('scoreText').textContent = correct+'/'+state.size;
-  document.getElementById('pctText').textContent = pct+'%';
-
-  var reviewCard = document.getElementById('reviewCard');
-  reviewCard.innerHTML = '';
-  var letters=['A','B','C','D'];
-  state.pool.forEach(function(item,i){
-    var div = document.createElement('div');
-    div.className='review-item';
-    var userAns = state.answers[i];
-    var html = '<div class="qn">Question '+(i+1)+'</div><div class="qt">'+escapeHtml(item.q)+'</div>';
-    item.o.forEach(function(opt, idx){
-      var cls = '';
-      if (idx===item.a) cls='correct';
-      else if (idx===userAns) cls='incorrect';
-      html += '<div class="review-opt '+cls+'">'+letters[idx]+'. '+escapeHtml(opt)+
-        (idx===item.a?' &nbsp;✓ Correct answer':'') +
-        (idx===userAns && idx!==item.a ? ' &nbsp;✕ Your answer':'') +
-        '</div>';
+      optWrap.appendChild(row);
     });
-    div.innerHTML = html;
-    reviewCard.appendChild(div);
-  });
-}
 
-document.getElementById('toggleReviewBtn').addEventListener('click', function(){
-  var rc = document.getElementById('reviewCard');
-  var hidden = rc.classList.toggle('hidden');
-  this.textContent = hidden ? 'Show question review' : 'Hide question review';
-});
+    el('prevBtn').style.visibility = current===0 ? 'hidden' : 'visible';
+    el('nextBtn').textContent = current===attempt.length-1 ? 'Finish attempt' : 'Next page →';
+    updateGrid();
+  }
 
-document.getElementById('retryBtn').addEventListener('click', function(){
-  document.getElementById('screen-results').classList.add('hidden');
-  document.getElementById('reviewCard').classList.add('hidden');
-  document.getElementById('toggleReviewBtn').textContent='Show question review';
-  document.getElementById('screen-start').classList.remove('hidden');
-});
+  function goTo(idx){
+    if(idx < 0) return;
+    if(idx >= attempt.length){ showSummary(); return; }
+    current = idx;
+    renderQuestion();
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function showSummary(){
+    const body = el('summaryBody');
+    body.innerHTML = '';
+    attempt.forEach((item, idx)=>{
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--glass-border)';
+      const answeredText = item.selected!==null ? 'Answered' : 'Not yet answered';
+      const color = item.selected!==null ? 'var(--green)' : 'var(--orange)';
+      tr.innerHTML = `<td style="padding:8px 4px;"><a href="#" data-idx="${idx}">Question ${idx+1}</a></td>
+                      <td style="padding:8px 4px;color:${color};font-weight:600;">${answeredText}</td>`;
+      body.appendChild(tr);
+    });
+    body.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        show('quizScreen');
+        goTo(parseInt(a.dataset.idx,10));
+      });
+    });
+    show('summaryScreen');
+  }
+
+  async function finishAttempt(){
+    if(timerInterval) clearInterval(timerInterval);
+    el('finishBtn').classList.add('hidden');
+    el('timerDisplay').classList.add('hidden');
+
+    let correctCount = 0;
+    for(const item of attempt){
+      if(item.selected===null){ item.wasCorrect=false; continue; }
+      const chosenText = item.options[item.selected];
+      const digest = await sha256(item.id+'|'+SALT+'|'+norm(chosenText));
+      item.wasCorrect = (digest === item.h);
+      if(item.wasCorrect) correctCount++;
+    }
+
+    const total = attempt.length;
+    const pct = Math.round((correctCount/total)*100);
+    const pass = pct >= 50;
+
+    const circle = el('scoreCircle');
+    circle.textContent = pct+'%';
+    circle.className = 'score-circle ' + (pass ? 'pass' : 'fail');
+    el('scoreLine').textContent = `You answered ${correctCount} of ${total} correctly.`;
+
+    buildReview();
+    updateGridFinal();
+    show('resultsScreen');
+  }
+
+  function updateGridFinal(){
+    const buttons = el('qgrid').querySelectorAll('button');
+    buttons.forEach((b, idx)=>{
+      b.classList.remove('answered');
+      b.classList.add(attempt[idx].wasCorrect ? 'correct' : 'incorrect');
+    });
+  }
+
+  function buildReview(){
+    const letters = ['A','B','C','D'];
+    const wrap = el('reviewList');
+    wrap.innerHTML = '';
+    attempt.forEach((item, idx)=>{
+      const div = document.createElement('div');
+      div.className = 'review-item card glass';
+      let optsHtml = '';
+      item.options.forEach((optText, i)=>{
+        let cls = 'option';
+        if(item.selected===i && item.wasCorrect) cls += ' correct';
+        else if(item.selected===i && !item.wasCorrect) cls += ' incorrect';
+        optsHtml += `<div class="${cls}"><span class="opt-letter">${letters[i]}.</span><span>${escapeHtml(optText)}</span></div>`;
+      });
+      div.innerHTML = `<div class="review-q">Question ${idx+1}: ${escapeHtml(item.q)}</div>
+                        <div class="options">${optsHtml}</div>`;
+      wrap.appendChild(div);
+    });
+  }
+
+  function toggleReview(){
+    el('reviewList').classList.toggle('hidden');
+    el('reviewBtn').textContent = el('reviewList').classList.contains('hidden') ? 'Review answers' : 'Hide review';
+  }
 
 })();
 </script>
+
 </body>
 </html>
